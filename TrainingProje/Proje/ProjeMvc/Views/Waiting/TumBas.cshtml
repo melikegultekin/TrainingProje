@@ -1,0 +1,198 @@
+﻿@using Entities.Concrete
+@model List<Waiting>
+
+@{
+    ViewData["Title"] = "TumBas";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <title>AdminLTE 3 | Dashboard 3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        @*<h2>Hoşgeldiniz @ViewBag.username</h2>*@
+        <!-- Trigger the modal with a button -->
+        <br />
+
+        
+        
+        
+        <br />
+        <h4><b>Eğitime Başvuran Öğrenciler</b></h4><br />
+        <table id="tbl1" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th><b>Öğrencinin Adı:</b></th>
+                    <th><b>Öğrencinin Soyadı:</b></th>
+                    <th style="width:85px;"></th>
+                    <th style="width:85px;"></th>
+                </tr>
+            </thead>
+            <!--Model içindeki her item için döngü dönecek ve değerleri tabloya yazılacak-->
+            @foreach (var item in Model)
+            {
+        <tr>
+            <td>@item.User.FirstName</td>
+            <td>@item.User.LastName</td>
+
+            @*<td><a href="/Waiting/Onayla?WaitingId=@item.WaitingId" class="btn btn-danger">Onayla</a></td>*@
+            @*<td><button id="btnWaiting" type="button" style="border: none; width: 85px;" class="btn btn-block btn-outline-dark btn-sm" value="@item.WaitingId&@item.UserId"><b>Onayla</b></button></td>*@
+            <td><button id="btnWaiting" type="button" style="border: none; width: 85px;" class="btn btn-block btn-outline-dark btn-sm" onclick="Onayla('@item.TrainingId', '@item.UserId', '@item.WaitingId')"><b>Onayla</b></button></td>
+            <td>
+                <button type="button" style=" border: none; width: 85px;" class="btn btn-block btn-outline-dark btn-sm" data-toggle="modal" data-target=@("#myModal" +item.WaitingId )><b>Reddet</b></button>
+
+                <div class="modal fade" id=@($"myModal{item.WaitingId}") role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content col-md-10">
+                            <div class="modal-header">
+                                @*<label >Reddetmenin nedeni:</label>*@
+                                <h6 class="modal-title"> Reddetmenin nedeni:</h6>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                            </div>
+                            <div class="modal-body">
+
+                                <input type="text" id="MessageContextS" @*style="width:85px;"*@ name="MessageContextS" value="" class="form-control" /> @*autocomplete = "off"*@
+                                <br />
+                                <input type="hidden" name="WaitingId" value="@item.WaitingId" />
+                                <button id="btnReddet" class="btn btn-outline-danger btn-sm" style="width:85px;" value="@item.UserId">Gönder</button>
+                                @*<button class="btn btn-info">Gönder</button>*@
+                                @*<a href="/Message/Gonder?UserName=@item.UserName" class="btn btn-success">Gönder</a>*@
+                                @*<input type="submit" value="Gonder" onclick="window.location='/Message/Gonder';" />*@
+                            </div>
+                            <input hidden id="TrainingId" value="@item.TrainingId" />
+                            <input hidden id="WaitingId" value="@item.WaitingId" />
+                            <input hidden id="UserId" value="@item.UserId" />
+                            <input hidden id="MessageContext" />
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+            }
+            
+        </table>
+    </div>
+
+    @*<script src="~/tooltip.js/tooltip.js"></script>*@
+    <br />
+    
+
+    <br />
+    <script>
+
+        $(document).ready(function () {
+            $('#tbl1').DataTable({
+                pageLength: 15,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/tr.json'
+                }
+            });
+        });
+
+        /*$('#btnWaiting').on('click', function () {*/
+        /*$('#btnWaiting').click(function () {*/
+        function Onayla(TrainingId,UserId,WaitingId) {
+            //var trainingId = document.getElementById('TrainingId').value;
+            //var waitingId = document.getElementById('WaitingId').value;
+            //var userId = document.getElementById('UserId').value;
+            $.ajax({
+                type: 'GET',
+                url: '/Waiting/Onayla?waitingId=' + WaitingId + '&userId=' + UserId + '&trainingId=' + TrainingId,
+                success: function (response) {
+                    if (response === '1') {
+                        swal({
+                            title: "Hata",
+                            text: "Bu eğitim için kontenjan dolmuştur.",
+                            icon: "error",
+                        }).then(() => {
+                            location.reload();
+
+                        });
+                    }
+                    if (response === '2') {
+                        swal({
+                            title: "Hata",
+                            text: "Bu öğrenci mevcut bir eğitime sahiptir.",
+                            icon: "error",
+                        }).then(() => {
+                            location.reload();
+
+                        });
+                    }
+                    if (response === '3') {
+                        swal({
+                            title: "Hata",
+                            text: "Bu öğrenci mevcut bir eğitime sahiptir.",
+                            icon: "error",
+                        }).then(() => {
+                            location.reload();
+                        });
+                    }
+                    if (response === '200') {
+                        swal({
+                            title: "Başarılı",
+                            text: "Öğrencinin başvurusunu onayladınız!",
+                            icon: "success",
+                        }).then(() => {
+                            location.reload();
+                        });
+                    }
+                },
+            }).done(function (response) {
+
+            });
+
+        }
+
+        $('#btnReddet').on('click', function () {
+
+            var trainingId = document.getElementById('TrainingId').value;
+            var waitingId = document.getElementById('WaitingId').value;
+            var userId = document.getElementById('UserId').value;
+            var messageContext = document.getElementById('MessageContextS').value;
+            $.ajax({
+                type: 'GET',
+                url: '/Waiting/Gonder?waitingId=' + waitingId + '&userId=' + userId + '&messageContext=' + messageContext + '&trainingId=' + trainingId,
+                success: function (response) {
+                    if (response === '200') {
+                        //window.location = "https://localhost:5001/Waiting/TumBas?TrainingId=" + trainingId + "&waitingId=" + waitingId;
+                        location.reload();
+
+                    }
+                },
+            }).done(function (response) {
+
+            });
+
+        });
+
+    </script>
+
+</body>
+</html>

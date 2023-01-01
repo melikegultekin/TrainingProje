@@ -1,0 +1,106 @@
+﻿@using Entities.DTOs
+@model List<UserDetailDto>
+
+@{
+    ViewData["Title"] = "Basvuran";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        @*<h2>Hoşgeldiniz @ViewBag.username</h2>*@
+        <!-- Trigger the modal with a button -->
+        <br />
+
+        @if (TempData["AlertMessage"] != null)
+        {
+            <div class="alert alert-success">
+                <strong>Mesajınız!</strong>@TempData["AlertMessage"]
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                    @*<span>x</span>*@
+                </button>
+            </div>
+        }
+        <div class="p-5 w-50 m-0">
+            <!--burada Add viewine yönlendirme yaptık-->
+            <a href="/Site/Add" class="btn btn-success">Hesap Ekle</a>
+            <a href="/SiteAdd/Add" class="btn btn-success">Site Ekle</a>
+            <a href="/SiteAdd/GetAll" class="btn btn-success">Site Sil</a>
+            <a href="/User/Logout" class="btn btn-success">Çıkış Yap</a>
+        </div>
+        <br />
+
+        <table class="table table-bordered">
+            <tr>
+                <th>Kullanıcı Adı</th>
+                <th>Üyenin Adı</th>
+                <th>Üyenin Soyadı</th>
+                <th>Üyenin email adresi</th>
+            </tr>
+            <!--Model içindeki her item için döngü dönecek ve değerleri tabloya yazılacak-->
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.UserName</td>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                    <td>@item.Email</td>
+
+
+                    <td><a href="/Training/Delete?TrainingId=@item.UserName" class="btn btn-danger">Onayla</a></td>
+                    @*<td><a href="/Training/Update?TrainingId=@item.UserName" class="btn btn-primary">Eğitimi Güncelle</a></td>*@
+
+                    <td>
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target=@("#myModal" +item.UserName )>Reddet</button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id=@($"myModal{item.UserName}") role="dialog">
+                            <div class="modal-dialog">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title"> @ViewBag.username</h4>
+                                    </div>    
+                                    <form method="post" action="#">
+                                        <div class="modal-body">
+                                            <label>Reddetmenin nedeni:</label>
+                                            <input type="text" name="#" class="form-control" />
+                                            <br />
+                                            <a href="/Training/Update?TrainingId=@item.UserName" class="btn btn-primary">Gönder</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                    </td>
+                </tr>
+
+            }
+        </table>
+    </div>
+
+    @*<script src="~/tooltip.js/tooltip.js"></script>*@
+    <br />
+    <div>
+        <div class="p-5 w-50 m-0">
+            <!--burada Add viewine yönlendirme yaptık-->
+            <a href="/User/Logout" class="btn btn-success">ANA SAYFA</a>
+        </div>
+    </div>
+
+    <br />
+
+</body>
+</html>

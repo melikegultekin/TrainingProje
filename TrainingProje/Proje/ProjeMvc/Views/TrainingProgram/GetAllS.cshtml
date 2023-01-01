@@ -1,0 +1,559 @@
+﻿@using Entities.Concrete
+@model List<Class>
+
+@{
+    ViewData["Title"] = "GetAllS";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/css/all.min.css" />
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <title>AdminLTE 3 | Dashboard 3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container">
+        @*<h2>Hoşgeldiniz @ViewBag.username</h2>*@
+        <!-- Trigger the modal with a button -->
+        <br />
+
+        <div class="container">
+            <div class="p-2 w-100 m-0">
+                <br />
+
+
+            </div>
+
+            <br />
+            <h4><b>Hafta Sonu Programları</b></h4>
+            <br />
+            <table id="tbl1" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="font-size:11px;"><b>Eğitim sınıfı</b></th>
+                        <th style="font-size:11px;"><b>Eğitim Setinin Adı</b></th>
+                        @*<th style="font-size:11px;"><b>Eğitim Günleri</b></th>*@
+                        <th style="font-size:11px;"><b>Eğitimin başlangıç tarihi</b></th>
+                        <th style="font-size:11px;"><b>Eğitimin bitiş tarihi</b></th>
+                        <th style="font-size:11px;"><b>Sınıfın kontenjanı</b></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <!--Model içindeki her item için döngü dönecek ve değerleri tabloya yazılacak-->
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        @*<td>@item</td>*@
+                        <td style="font-size:11px;"><br />@item.ClassName</td>
+                        <td style="font-size:11px;"><br />@item.Training.TrainingName</td>
+                        @*<td style="font-size:11px;"><br />@item.TrainingProgram.Name</td>*@
+                        <td style="font-size:11px;"><br />@item.Training.TrainingStartdate.ToString("dd.MM.yyyy")</td>
+                        <td style="font-size:11px;"><br />@item.Training.TrainingLastdate.ToString("dd.MM.yyyy")</td>
+                        <td style="font-size:11px;"><br />@item.Kota</td>
+                        <input type="hidden" name="UserId" value="UserId" />
+                        <input type="hidden" name="TrainingId" value="TrainingId" />
+                        @*<td><a href="/Class/Add?TrainingProgramId=@item.TrainingProgramId" class="btn btn-success">Sınıf Ekle</a></td>*@
+
+                        @*<td>
+                        <a href="/Class/Add?TrainingProgramId=@item.TrainingProgramId" title="Sınıf Ekle" class="btn btn-block btn-outline-success btn-sm">
+                            <i class="nav-icon far fa-plus-square text-bg-success"></i>
+                        </a>
+                    </td>*@
+                        <td>
+                            <div class="p-2 w-100 m-0">
+                                <button type="button" title="SINIF EKLE" style="border: none; margin-top: +10px;" class="btn btn-outline-dark btn-sm" @*style="width:5%; height:2%;"*@ data-toggle="modal" data-target="#exampleModal3">
+                                    <i class="nav-icon far fa-plus-square text-bg-dark"></i>
+                                </button>
+                                <br />
+                                <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content col-md-6">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel3">Sınıf Ekle</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body col-md-5">
+
+                                                @*<input type="hidden" name="TrainingProgramId" asp-for="TrainingProgramId" />*@
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-control-label">Sınıf:</label><br />
+                                                        <input id="ClassId" name="ClassName" class="form-select" autocomplete="off" />
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="form-control-label">Sınıfın kotası:</label><br />
+                                                        <input id="LessonId" name="LessonName" class="form-select" autocomplete="off" />
+                                                    </div>
+                                                </div>
+                                                @*<input type="hidden" name="NameId" value="TitleId" />*@
+                                                <input type="hidden" name="ClassName" value="ClassId" />
+                                                <div class="modal-footer float-lg-right">
+                                                    <input type="hidden" name="TrainingProgramId" id="TrainingProgramId" value="TrainingProgramId" />
+                                                    <button style="width:50px; border:none;" id="test2" class="btn btn-block btn-outline-info btn-sm" onclick="SınıfEkle('@item.TrainingProgramId', '@item.ClassId' )">Ekle</button>
+                                                    @*<button type="button" style="width:50px;" class="btn btn-block btn-outline-secondary btn-sm " data-dismiss="modal">Kapat</button>
+
+        <button type="button" class="btn btn-primary">Oluştur</button>*@
+                                                </div>
+
+                                            </div>
+
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        @*<td><a href="/TrainingProgram/Delete?TrainingProgramId=@item.TrainingProgramId" class="btn btn-danger">Sil</a></td>*@
+                        <td>
+                            <br />
+                            <button id="sil" title="SİL" style="border: none;" class="btn btn-block btn-outline-dark btn-sm" onclick="sil( '@item.TrainingProgramId')">
+                                <i class="nav-icon far fa-trash-alt text-bg-dark"></i>
+                            </button>
+                        </td>
+                        @*<td><a href="/TrainingProgram/Update?ClassId=@item.ClassId" class="btn btn-primary">Güncelle</a></td>*@
+
+                        <input type="hidden" name="TrainingProgramId" value="TrainingProgramId" />
+                        @*<a href="/Class/TProgram?ClassId=@item.ClassId"  class="btn btn-info">Ders Programını Gör</a>*@
+
+                        <td>
+                            <br />
+                            <a href="/Class/SonuProgram?ClassId=@item.ClassId" style="border: none;" title="DERS PROGRAMINI GÖR" class="btn btn-block btn-outline-dark btn-sm">
+                                <i class="nav-icon far fa-clock text-bg-dark"></i>
+                            </a>
+                        </td>
+                        @*<td><a href="/User/SListesi?ClassId=@item.ClassId" class="btn btn-secondary">Sınıf Listesi</a></td>*@
+                        <td>
+                            <br />
+                            <a href="/User/SListesi?ClassId=@item.ClassId" style="border: none;" title="SINIF LİSTESİ" class="btn btn-block btn-outline-dark btn-sm">
+                                <i class="nav-icon far fa-address-book text-bg-dark"></i>
+                            </a>
+                        </td>
+                        @*<td>
+                        <br />
+                        <a href="/TrainingProgram/Update?ClassId=@item.ClassId" style="border: none;" title="GÜNCELLE" class="btn btn-block btn-outline-dark btn-sm">
+                            <i class="nav-icon far fa-caret-square-down text-bg-dark"></i>
+                        </a>
+
+                    </td>*@
+                    <td>
+                        <br />
+                        <button type="button" title="EĞİTİMİ GÜNCELLE" value="@item.TrainingId" style="border: none;" onclick="doldur('@item.TrainingId', '@item.ClassName', '@item.Kota', '@item.ClassId', '@item.TrainingProgram.Name')" class="btn btn-outline-dark btn-sm" @*style="width:5%; height:2%;"*@ data-toggle="modal" data-target="#exampleModal15">
+
+                            <i class="nav-icon far fa-caret-square-down text-bg-secondary"></i>
+
+                        </button>
+                        <br />
+                    </td>
+                    </tr>
+
+                }
+            </table>
+            <input type="hidden" id="TrainingId" name="TrainingId" />
+
+            <div class="modal fade" id="exampleModal15" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel15" aria-hidden="true">
+                <div class="modal-dialog " role="document">
+                    <div class="modal-content" >
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel15">Eğitim Programını Güncelle </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col">
+                                    <label class="TrainingId5">Eğitimin Adı:</label><br />
+                                    <select id="TrainingId5" name="TrainingName" class="form-select" style="width: 200px; font-size: 12px; height: 25px; border-color: black;" asp-items="(List<SelectListItem>)ViewBag.Lessons">
+                                        <option value="0">Lütfen bir eğitim seçiniz!!</option>
+                                    </select>
+                                    @*<label for="TrainingName">Eğitimin İsmi:</label>
+        <input type="text" id="TrainingName5" name="TrainingName" class="form-control" autocomplete="off">*@
+                                </div>
+                                <div class="col">
+                                    <label class="form-control-label">Günleri:</label><br />
+                                    <select id="NameId5" name="Name5" placeholder="Günler" style="width: 200px; font-size: 12px; height: 25px; border-color: black;" class="form-select">
+                                        <option value="0">Lütfen seçim yapınız!!</option>
+                                        <option value="1">Hafta İçi</option>
+                                        <option value="2">Hafta Sonu</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="TotalHours">Sınıfın İsmi:</label>
+                                    <input type="text" class="form-control" id="ClassName5" name="TotalHours" style="width: 200px; font-size: 12px; height: 25px; border-color: black;">
+                                </div>
+                                <div class="col">
+                                    <label for="TrainingStartdate">Sınıfın Kotası:</label>
+                                    <input type="text" class="form-control" id="Kota5" name="Kotadate" style="width: 200px; font-size: 12px; height: 25px; border-color: black;" >
+                                </div>
+                            </div>
+                            
+
+                            <div class="modal-footer">
+                                @*<button type="button" style="border: none;" class="btn btn-outline-secondary" data-bs-dismiss="modal">Kapat</button>*@
+                                <button type="button" id="btn1" style="border: none;" class="btn btn-outline-success" data-dismiss="modal">Güncelle</button>
+                                @*<button type="button" id="test2" class="btn btn-outline-info" onclick="sil('@TrainingId')">Güncelle</button>*@
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <br />
+
+        <script>
+            /*$('#tbl1').DataTable();*/
+
+            $(document).ready(function () {
+                $('#tbl1').DataTable({
+                    pageLength: 15,
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/tr.json'
+                    }
+                });
+            });
+
+            function doldur(TrainingId, ClassName, Kota, ClassId, Name) {
+
+                //$('#TrainingId').val(TrainingId);
+                $('#TrainingId5').val(TrainingId);
+                $('#ClassName5').val(ClassName);
+                $('#Kota5').val(Kota);
+                $('#ClassId').val(ClassId);
+                $('#NameId5').val(Name);
+                $("#exampleModal15").modal("show");
+            }
+
+            $('#btn1').click(function () {
+                //e.preventDefault();
+                var TrainingId = document.getElementById('TrainingId5').value;
+                var TrainingName = document.getElementById('TrainingId5').value;
+                var ClassName = document.getElementById('ClassName5').value;
+                var Kota = document.getElementById('Kota5').value;
+                var Name = document.getElementById('NameId5').value;
+                var model = new Object();
+                model.TrainingId = TrainingId;
+                model.TrainingName = TrainingName;
+                model.ClassName = ClassName;
+                model.Kota = Kota;
+                model.Name = Name;
+                $.ajax({
+                    type: 'POST',
+                    url: '/TrainingProgram/Update?TrainingId=' + TrainingId + '&ClassId=' + ClassId,
+                    data: { model: model },
+                    success: function (response) {
+                        if (response === '50') {
+                            swal({
+                                title: "Hata!",
+                                text: "Seçilen sınıfın programı mevcut.Lütfen başka sınıfa ekleme yapınız..!",
+                                icon: "error",
+                                //timer: 30000
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                        if (response === '3') {
+                            swal({
+                                title: "Hata!",
+                                text: "Sınıf mevcudu eğitim kotasından çok olamaz..!",
+                                icon: "error",
+                                //timer: 30000
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                        if (response === '200') {
+                            swal({
+                                title: "Başarılı!",
+                                text: "Eğitim Güncelleme işleminiz başarılı!",
+                                icon: "success",
+                                //timer: 30000
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            swal({
+                                title: "Hata!",
+                                text: response,
+                                icon: "error",
+                                //timer: 30000
+                            });
+                        }
+                    },
+                }).done(function (response) {
+
+                });
+            });
+
+            $("#btnSave").click(function () {
+
+                var ClassName = document.getElementById('ClassId').value;
+                var TrainingId = document.getElementById('TrainingId').value;
+                var Kota = document.getElementById('KotaId').value;
+                var Name = document.getElementById('NameId').value;
+                var model = new Object();
+                model.TrainingId = TrainingId;
+                model.ClassName = ClassName;
+                model.Name = Name;
+                model.Kota = Kota;
+                $.ajax({
+                    type: 'POST',
+                    url: '/TrainingProgram/Add',
+                    data: { trainingProgramDto: model },
+                    success: function (response) {
+                        if (response === '10') {
+                            swal({
+                                title: "Hata!",
+                                text: "Bir eğitim türü seçmeden ekleme yapamazsınız..!",
+                                icon: "error",
+                                //timer: 30000
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                        if (response === '2') {
+                            swal({
+                                title: "Hata!",
+                                text: "Eklemek istediğiniz sınıfın bir programı mevcut...!",
+                                icon: "error",
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                        if (response === '3') {
+                            swal({
+                                title: "Hata!",
+                                text: "Sınıfı belli değil! Sınıf mevcudu girilemez...!",
+                                icon: "error",
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                        if (response === '5') {
+                            swal({
+                                title: "Hata!",
+                                text: "Program Ekleme işleminiz başarısız! Eğitimin tarihi geçmiş",
+                                icon: "error",
+                            }).then(() => {
+                                location.reload();
+
+                            });
+
+                        }
+                        if (response === '6') {
+                            swal({
+                                title: "Hata!",
+                                text: "Seçilen eğitimde ders mevcut değil.Program eklenemez..!",
+                                icon: "error",
+                            }).then(() => {
+                                location.reload();
+                            });
+
+                        }
+                        if (response === '200') {
+                            swal({
+                                title: "Başarılı!",
+                                text: "Program Ekleme işleminiz başarılı!",
+                                icon: "success",
+                                //timer: 30000
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    },
+                }).done(function (response) {
+
+                });
+            });
+
+            function SınıfEkle(TrainingProgramId, ClassId) {
+
+                //var examNot = $("#" + examId).val();
+                //var TrainingProgramId = document.getElementById('#TrainingProgramId').value;
+                var ClassName = document.getElementById('ClassId').value;
+                $.ajax({
+                    type: 'POST',
+                    url: '/Class/Add?TrainingProgramId=' + TrainingProgramId + '&ClassName' + ClassName,
+                    success: function (response) {
+                        if (response === '50') {
+                            swal({
+                                title: "Uyarı!",
+                                text: "Seçilen öğrenci bir eğitim notuna sahip! Notu değiştirmek istiyorsanız 'GÜNCELLE' butanuna tıklayınız!",
+                                icon: "warning",
+                                //timer: 3000
+                            });
+                            //location.reload();
+                        }
+                        if (response === '200') {
+                            /*swal("Başarılı!", "Not eklediniz!", "success");*/
+                            swal({
+                                title: "Başarılı!",
+                                text: "Not eklediniz!",
+                                icon: "success",
+                                timer: 3000
+                            }).then(() => {
+                                location.reload();
+
+                            });
+
+                        }
+
+                    },
+                }).done(function (response) {
+
+                });
+            }
+
+            $('#test2').on('submit', function (e) {
+                var Sınıf = document.getElementById('ClassId').value;
+                var TrainingProgramId = document.getElementById('TrainingProgramId').value;
+                $.ajax({
+                    type: 'Post',
+                    url: '/Class/Add?ClassName=' + Sınıf + '&TrainingProgramId=' + TrainingProgramId,
+                    success: function (response) {
+                        if (response === '200') {
+                            /*swal("Başarılı!", "Not eklediniz!", "success");*/
+                            swal({
+                                title: "Başarılı!",
+                                text: "Unvan Ekleme işleminiz başarılı!",
+                                icon: "success",
+                                //timer: 30000
+                            });
+                            //location.reload();
+                        }
+
+                    },
+                }).done(function (response) {
+
+                });
+
+            });
+
+
+            function sil(trainingProgramId) {
+                //var trainingId = document.getElementById('TrainingId').value;
+                swal({
+                    title: "Sil butonuna bastınız!",
+                    text: "Programı silmek istediğinizden emin misiniz? Etkilenen alanlar olabilir!",
+                    icon: "warning",
+                    //button: ["Cancel!",true],
+                    button: true,
+                    //dangerMode: true,
+
+
+                }).then((result) => {
+                    if (result === true) {
+                        $.ajax({
+                            type: 'GET',
+                            url: '/TrainingProgram/Delete?trainingProgramId=' + trainingProgramId,
+                            success: function (response) {
+                                if (response === '200') {
+                                    swal({
+                                        title: "Başarılı",
+                                        text: "Silme işleminiz yapıldı!",
+                                        icon: "success",
+                                    }).then(() => {
+                                        location.reload();
+
+                                    });
+                                }
+                            },
+                        }).done(function (response) {
+
+                        })
+                    }
+                })
+            }
+
+
+            $('#test3').on('submit', function (e) {
+                e.preventDefault();
+                var Tc = document.getElementById('exampleInputTc').value;
+                var EUserName = document.getElementById('exampleInputKullanıcıAdı').value;
+                var EducatorFullName = document.getElementById('exampleInputEğitmeninAdıSoyadınız').value;
+                var Email = document.getElementById('exampleInputEmail').value;
+                var TitleName = document.getElementById('TitleId').value;
+                var Password = document.getElementById('exampleInputŞifre').value;
+                var PasswordTekrarı = document.getElementById('exampleInputSifretekrarı').value;
+                var model = new Object();
+                model.Tc = Tc;
+                model.EUserName = EUserName;
+                model.EducatorFullName = EducatorFullName;
+                model.Email = Email;
+                model.TitleId = TitleName;
+                model.Password = Password;
+                model.Passwordtekrar = PasswordTekrarı;
+                $.ajax({
+                    type: 'POST',
+                    url: '/Educator/RegisterEd',
+                    data: { educatorForRegisterDto: model },
+                    success: function (response) {
+                        if (response === '200') {
+                            /*swal("Başarılı!", "Not eklediniz!", "success");*/
+                            swal({
+                                title: "Başarılı!",
+                                text: "Eğitmen Ekleme işleminiz başarılı!",
+                                icon: "success",
+                                //timer: 30000
+                            }).then(() => {
+                                location.reload();
+
+                            });
+
+                        } else {
+                            swal({
+                                title: "Hata!",
+                                text: response,
+                                icon: "error",
+                                //timer: 30000
+                            });
+                        }
+
+                    },
+                }).done(function (response) {
+
+                });
+            });
+        </script>
+
+</body>
+</html>
+

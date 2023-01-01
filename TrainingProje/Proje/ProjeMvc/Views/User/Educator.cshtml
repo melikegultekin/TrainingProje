@@ -1,0 +1,669 @@
+﻿@using Entities.Concrete
+@model List<Training>
+
+@{
+    ViewData["Title"] = "Authorized";
+
+}
+
+@section Styles{
+    <link href='fullcalendar/main.css' rel='stylesheet' />
+    <link href="~/fullcalendar/lib/main.css" rel="stylesheet" />
+    <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+    <link href="~/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+
+    <link href="~/fullcalendar/bootstrap/main.css" rel="stylesheet" />
+
+    <link href="~/bootstrap-datetimepicker/css/tempus-dominus.css" rel="stylesheet" />
+
+    @*<link rel="stylesheet" href="/path/to/cdn/fontawesome.min.css" />
+        <link rel="stylesheet" href="/path/to/css/bootstrap-datetimepicker.css" />
+        <link rel="stylesheet" href="/path/to/cdn/bootstrap.min.css" />*@
+    @*<link rel="stylesheet" href="~/path/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/path/css/tempusdominus.css" />*@
+
+
+
+    <link href="~/dtpicker/jquery.datetimepicker.min.css" rel="stylesheet" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="~/dtpicker/jquery.datetimepicker.full.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" />
+}
+
+<br />
+<div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Program Ekleme/Güncelleme</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="/TrainingProgram/AddOrUpdateTrainingProgram/">
+                <div class="modal-body">
+                    <input hidden id="trainingProgramId" value"" />
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Başlangıç Tarihi:</label>
+                            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                <input id="inputStartDate" name="StartDate" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" />
+                                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Bitiş Tarihi:</label>
+                            <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                                <input id="inputEndDate" type="text" name="EndDate" class="form-control datetimepicker-input" data-target="#datetimepicker2" />
+                                <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        @*<div class="form-group col-md-6">
+                            <label class="form-control-label">Eğitmen:</label>
+                            <select id="selectEducatorId" name="EducatorId" class="form-select" asp-items="(List<SelectListItem>)ViewBag.Educators">
+                                <option value="0">Lütfen bir eğitmen seçiniz!!</option>
+                            </select>
+                        </div>*@
+                        @*<input type="hidden" name="EducatorId" value="@Model.EducatorId" />*@
+                        <div class="form-group col-md-6">
+                            <input hidden id="EducatorId" value="Model.EducatorId" />
+                            <label class="form-control-label">Eğitimin Adı:</label>
+                            <select id="selectTrainingIdId" name="TrainingId" class="form-select" asp-items="(List<SelectListItem>)ViewBag.Trainings">
+                                <option value="0">Lütfen bir eğitim seçiniz!!</option>
+                            </select>
+                            <br />
+                            <div class="form-group col-md-6">
+                                <label class="form-control-label">Açıklama:</label>
+                                <input id="inputDescription" type="text" name="Description" class="from-control" />
+                            </div>
+                            @*<input id="inputTrainingName" type="text" class="from-control" />*@
+                        </div>
+                    </div>
+                    <br />
+                    @*<div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Açıklama:</label>
+                            <input id="inputDescription" type="text" name="Description" class="from-control" />
+                        </div>
+                    </div>*@
+
+                </div>
+                @*<input type="hidden" name="EducatorId" value="@Model.EducatorId" />*@
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    @*<input type="hidden" name="EducatorId" value="EducatorId" />*@
+                    @*<input hidden id="EducatorId" />*@
+                    @*<button class="btn btn-info">Kaydet</button>*@
+                    <button id="btnSave" type="button" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Program Detay</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form>
+                    <input hidden id="trainingProgramId" />
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Başlangıç Tarihi:</label>
+                            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                <input disabled id="inputStartDateDetail" name="StartDate" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" />
+                                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Bitiş Tarihi:</label>
+                            @*<input disable id="inputEndDateDetail" type="text" name="EndDate" class="form-control" />*@
+                            <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                                <input disabled id="inputEndDateDetail" type="text" name="EndDate" class="form-control datetimepicker-input" data-target="#datetimepicker2" />
+                                <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Eğitmen:</label>
+                            <select disabled id="selectEducatorIdDetail" name="EducatorId" class="form-select" asp-items="(List<SelectListItem>)ViewBag.Educators">
+                                <option value="0">Lütfen bir eğitmen seçiniz!!</option>
+                            </select>
+                        </div>
+                        @*<input type="hidden" name="EducatorId" value="@Model.EducatorId" />*@
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Eğitimin Adı:</label>
+                            <select disabled id="selectTrainingIdDetail" name="TrainingId" class="form-select" asp-items="(List<SelectListItem>)ViewBag.Trainings">
+                                <option value="0">Lütfen bir eğitim seçiniz!!</option>
+                            </select>
+
+                            @*<input id="inputTrainingName" type="text" class="from-control" />*@
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Açıklama:</label>
+                            <input disabled id="inputDescriptionDetail" type="text" name="Description" class="from-control" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnDelete" type="button" class="btn btn-outline-danger">Sil</button>
+                        <button id="btnUpdate" type="button" class="btn btn-outline-primary">Güncelle</button>
+                        @*<a href="/TrainingProgram/Delete" name="TrainingProgramId"  class="btn btn-danger">Sil</a>*@
+                        @*<a href="/TrainingProgram/Update" name="TrainingProgramId" class="btn btn-primary">Güncelle</a>*@
+                        @*<input type="hidden" name="EducatorId" value="EducatorId" />*@
+                        @*<input hidden id="EducatorId" />*@
+                        @*<button class="btn btn-info">Kaydet</button>*@
+                        @*<button id="btnSave" type="button" class="btn btn-primary">Kaydet</button>*@
+                    </div>
+                </form>
+            </div>
+            @*<input type="hidden" name="EducatorId" value="@Model.EducatorId" />*@
+
+
+
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-1">
+            <a href="/Educator/GetAll" class="btn btn-danger">Geri Dön</a>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Eğitim merkezi</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@*@Model.FirstName @Model.LastName*@ Yetkili Kişi</h6>
+                    <p class="card-text">Eğitim planlama sistemine hoş geldiniz</p>
+                    <a href="/Manager/Logout" class="card-link">Çıkış yap</a>
+                </div>
+            </div>
+            <br />
+
+            @*<table class="table table-bordered">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.TrainingName</td>
+                        <td><a href="/User/Authorized?EducatorId=@item.EducatorId" class="btn btn-success mt-2 float-lg-right"></a></td>
+                    </tr>
+                }
+            </table>*@
+        </div>
+        <div class="col-md-8">
+            @*<div class="container"> </div>*@
+            <div id="calendar"></div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.28/moment-timezone-with-data-10-year-range.js"></script>
+    <script src="~/fullcalendar/lib/main.js"></script>
+    <script src="~/fullcalendar/moment/main.js"></script>
+    <script src="~/fullcalendar/moment-timezone/main.js"></script>
+    <script src="~/fullcalendar/bootstrap/main.js"></script>
+    <script src="~/fullcalendar/lib/locales-all.js"></script>
+    <script src="~/twitter-bootstrap/js/bootstrap.js"></script>
+
+    <script src="~/twitter-bootstrap/js/bootstrap.js"></script>
+
+    <script src="~/dtpicker/jquery.datetimepicker.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
+
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var selectedEvent = null;
+            var events = [];
+            //var s = moment("2015-06-11T11:00:00Z").tz("Europe/Istanbul").format();
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                Plugins: ['momentTimezone'],
+                timezone: 'Europe/Istanbul',
+                //timeZone :'UTC-3',
+                //themeSystem:'bootstrap',
+                //bootstrapFontAwesome: {
+                //    listWeek : 'fa-list',
+                //},
+                locale: "tr",
+                timeFormat: 'h(:mm)a',
+                headerToolbar: {
+                    left: 'prev,next today',   /*, addEvent*/
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,listWeek'  /*,timeGridDay*/
+                },
+                footerToolbar: {
+                    left: 'prevYear',
+                    right: 'nextYear'
+                },
+                //scrollTime :'08:00:00',
+                minTime: '08:00:00',
+                hiddenDays: [0], //gizlenecek günleri yazıyoruz
+                //slotDuration: '00:15:00',
+                //slotLabelInterval: '00:15:00',
+                slotLabelFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    //    /*omitZeroMinute: true, saatleri tek gösterir*/
+                },
+                fixedWeekCount: true,
+                //handleWindowResize: true,
+                //windowResizeDelay: 1000,
+                //windowResize: function (view) {
+                //    alert('Takvim yeniden boyutlandırıldı.');
+                //},
+                contentHeight: 450,
+                defaultView: 'dayGridMonth',
+                weekends: true,/*hafta sonlarını getirmez*/
+
+                titleFormat: {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                },
+                titleRangeSeparator: '/',
+                columnHeaderFormat: {
+                    weekday: 'long',
+                },
+                //customButtons: {
+                //    addEvent: {
+                //        text: 'Ekle',
+                //        click: function () {
+
+                //        }
+                //    }
+                //},
+                //views: {
+                //    timeGridFourDay: {
+                //        type: 'timeGrid',
+                //        dayCount: 4,
+                //        //duration: {days : 4},
+                //        buttonText : '4 Gün'
+                //    }
+                //}
+                //eventTimeformat: {
+                //    hour: '2-digit',
+                //    minute: '2-digit',
+                //    /*second: '',*/
+                //},
+                validRange: {//Bu tarihten öncesini gösterme
+                    start: '2021-09-30'
+                },
+                eventOrder: 'title',//sıralı getir/çalışmadı
+                events: [],
+                eventRender: function (info) {
+                    console.log(info.event.title);//event,el,isMirror
+                },
+
+                selectable: true,
+                select: function (selectionInfo) {
+                    console.log(selectionInfo);
+                    //$('#saveModal').modal("show");
+                    selectedEvent = {
+                        trainingProgramId: 0,
+                        start: moment(selectionInfo.start),
+                        end: moment(selectionInfo.end),
+                        educatorFullName: "",
+                        trainingName: "",
+                        description: "",
+                        educatorId: 0,
+                        trainingId: 0
+
+                    }
+                    openAddOrUpdateTrainingProgram();
+                },
+                eventClick: function (info) {
+                    //alert(info.event.title);
+                    selectedEvent = {      ////Güncelleme Yaparken verilerim gelmeli
+                        //trainingProgramId: info.event.trainingProgramId,
+                        start: moment(info.event.start),
+                        end: moment(info.event.end),
+                        educatorFullName: info.event.extendedProps.educatorFullName,
+                        trainingName: info.event.extendedProps.trainingName,
+                        description: info.event.extendedProps.description,
+                        educatorId: info.event.extendedProps.educatorId,
+                        trainingId: info.event.extendedProps.trainingId
+                    };
+
+                    //Detay geldiğim yer
+                    //$('#inputEducatorIdDetail').val(info.event.extendedProps.EducatorId);
+                    $('#inputStartDateDetail').val(moment(info.event.start).format('DD/MM/YYYY HH:ss'));
+                    $('#inputEndDateDetail').val(moment(info.event.end).format('DD/MM/YYYY HH:ss'));
+                    $('#selectTrainingIdDetail').val(info.event.extendedProps.trainingName);
+                    $('#selectEducatorIdDetail').val(info.event.extendedProps.educatorFullName);
+                    $('#inputDescriptionDetail').val(info.event.extendedProps.description);
+
+                    $('#detailModal').modal("show");
+
+
+                },
+                //eventMouseEnter: function (onMouse) {
+                //    alert(onMouse.event.start);
+                //}
+                //eventMouseLeave: function (onleave) {
+                //    alert(onleave.event.start);
+                //}
+                /*timeFormat: 'H(:mm)'*/
+
+                editable: true, // edit yapabiliyorum hareket ettirebiliyorum yani
+                //Güncelleme için (sürükleme yaparken)
+                //eventDrop: function (dropEventInfo) { //Bir fonksiyonu tetikleyebiliyoruz.
+                //    var trainingprog = {
+                //        TrainingProgramId: dropEventInfo.event.trainingProgramid,
+                //        EducatorId: dropEventInfo.event.extendedProps.educatorId,
+                //        StartDate: moment(dropEventInfo.event.start).format('DD/MM/YYYY HH:mm'),
+                //        EndDate: moment(dropEventInfo.event.end).format('DD/MM/YYYY HH:mm'),
+                //        TrainingName: dropEventInfo.event.extendedProps.trainingName,
+                //        Description: dropEventInfo.event.extendedProps.trainingName
+                //    }
+
+                //    saveTrainingProgram(trainingprog);
+                //},
+
+                eventResize: function (dropEventInfo) {
+                    var trainingprog = {
+                        TrainingProgramId: dropEventInfo.event.trainingProgramId,
+                        EducatorId: dropEventInfo.event.extendedProps.educatorId,
+                        TrainingId: dropEventInfo.event.extendedProps.trainingId,
+                        StartDate: moment(dropEventInfo.event.start).format('DD/MM/YYYY HH:mm'),
+                        EndDate: moment(dropEventInfo.event.end).format('DD/MM/YYYY HH:mm'),
+                        EducatorFullName: dropEventInfo.event.extendedProps.educatorFullName,
+                        TrainingName: dropEventInfo.event.extendedProps.trainingName,
+                        Description: dropEventInfo.event.extendedProps.description
+                    }
+
+                    saveTrainingProgram(trainingprog);
+                },
+
+
+
+
+
+                //eventStartEditable : false,  başlangıç zamanını değiştiremiyorum
+                //eventDurationEditable :  false, görünümün boyutunu değiştiremiyorum
+
+                //eventStartEditale : false, // başlangıç zamanını deiştirilebilir olup olmadığına bakar
+                //eventDurationEditable: false//başlangıç ve bitiş zaman aralığı sabit ve ben onu değiştiremiyorum.
+                eventOverlap: function (stillEvent, movingEvent) {//çakışmaları önlemek için
+                    //süzgeç
+                    return stillEvent.allDay && movingEvent.allDay;
+                },
+                eventConstraint: { //sadece bu iki saat arasında güncellemeye izin ver
+                    startTime: '08:00',
+                    endTime: '22:00',
+                    //daysOfWeek : [1,2,3] // bu üç güne güncelleme için izin verilmez
+                },
+                ////////eventAllow: function (dropInfoEvet, draggedEvent) {
+                //    //kontrol--mesela başlangıç tarihi belirlenenden önce mi
+                //    console.log(dropInfoEvent.start);
+                //    return false;
+                //}
+
+
+
+                //güncelleme yapıldığında tetiklenen fonksiyonlar. Sürükleme olduğunda çalışacak kodlar
+
+                //eventDragStart: function (info) {
+                //    console.log('başladı.');
+                //},
+                //eventDragStop: function (info) {
+                //    console.log('bitti.'); // eski sürüklemeden önceki duran yer!!//önce burası çalışır.
+                //},
+                //eventdrop: function (eventDropInfo) {
+                //    console.log('droped'); //event,oldEvent //  yeri değişmezse tetiklenmez
+                //}
+
+
+            });
+            calendar.render();
+            getTrainingPrograms();
+
+            $(function () {   /*, #datetimepicker2*/
+
+                $('#datetimepicker1, #datetimepicker2').datetimepicker({
+                    /*$('#datetimepicker1, #datetimepicker2').data("datetimepicker");{*/
+                    format: 'DD/MM/YYYY HH:mm'
+
+                });
+            });
+
+            //function getTraining() {
+            //    $.ajax({
+            //        type: 'GET',
+            //        url: '/User/GetTraining',
+            //        data: data,
+            //        success: function (data) {
+            //            $.each(data, function (v) {  // i,
+            //                events.push({
+            //                    trainingProgramId: v.TrainingProgramId,
+            //                    trainingName : v.TrainingName
+            //                });
+            //            }
+            //        }
+            //    })
+            //}
+
+            function getTrainingPrograms(educatorId) { //Takvime verileri getirme
+                $.ajax({
+                    type: 'GET',
+                    url: '/User/GetTrainingPrograms?educatorId=' + educatorId,
+                    success: function (response) {
+                        events = new Array();
+                        var sources = calendar.getEventSources();
+                        for (var i = 0; i < sources.length; i++) {
+                            sources[i].remove();
+                        }
+                        for (var i = 0; i < response.length; i++) {
+                            events.push({
+                                trainingProgramId: response[i].trainingProgramId,
+                                title: response[i].educatorFullName,
+                                educatorFullName: response[i].educatorFullName,
+                                trainingName: response[i].trainingName,
+                                start: response[i].startDate,
+                                end: response[i].endDate,
+                                description: response[i].description,
+                                trainingId: response[i].trainingId,
+                                //educatorId: response[i].educatorFullName,
+                                trainingId: response[i].trainingName
+
+                            });
+                        }
+                        calendar.addEventSource(events);
+                    }
+                });
+            }
+
+            //function getTrainingProgramsByEducator(educatorId) { //Eğitmene göre  verileri getirme
+            //    $.ajax({
+            //        type: 'GET',
+            //        url: '/TrainingProgram/GetTrainingProgramByEducator?educatorId=' + educatorId,
+            //        success: function (response) {
+            //            events = new Array();
+            //            var sources = calendar.getEventSources();
+            //            for (var i = 0; i < sources.length; i++) {
+            //                sources[i].remove();
+            //            }
+            //            for (var i = 0; i < response.length; i++) {
+            //                events.push({
+            //                    trainingProgramId: response[i].trainingProgramId,
+            //                    title: response[i].educatorFullName,
+            //                    //educatorFullName: response[i].educatorFullName,
+            //                    trainingName: response[i].trainingName,
+            //                    start: response[i].startDate,
+            //                    end: response[i].endDate,
+            //                    description: response[i].description,
+            //                    educatorId: response[i].educatorId,
+            //                    trainingId: response[i].trainingId
+            //                });
+            //            }
+            //            calendar.addEventSource(events);
+            //        }
+            //    });
+            //}
+
+            //Ekleme yaptığım fonksiyon
+            function openAddOrUpdateTrainingProgram() {
+                if (selectedEvent != null) {
+                    $('#inputStartDate').val(selectedEvent.start.format('DD/MM/YYYY HH:mm'));
+                    $('#inputEndDate').val(selectedEvent.end.format('DD/MM/YYYY HH:mm'));
+                    $('#selectTrainingId').val(selectedEvent.trainingName);
+                    $('#inputDescription').val(selectedEvent.description);
+                    $('#selectEducatorId').val(selectedEvent.educatorId);
+                    $('#selectTrainingId').val(selectedEvent.trainingId);
+                }
+
+                $('#saveModal').modal("show");
+            }
+
+
+            //function getTraining(data) {
+            //    $.ajax({
+            //        type: "GET",
+            //        url: "/User/GetTraining",
+            //        data: data,
+            //        success: function (data) {
+            //            $.each(data, function (i, v) {
+            //                events.push({
+            //                    trainingName: v.TrainingName
+            //                });
+            //            })
+            //        }
+            //    })
+            //}
+
+            function saveTrainingProgram(data) {
+
+                $.ajax({
+                    type: 'Post',
+                    url: '/TrainingProgram/AddOrUpdateTrainingProgram',
+                    data: data,
+                    success: function (response) {
+                        if (response === "200") {
+                            $('#saveModal').modal('hide');
+                            //alert("Ekleme yapıldı.");
+                            data.trainingProgramId === "" ? alertify.success('Randevunuz başarıyla eklendi.') : alertify.success('Randevunuz başarıyla güncellenmiştir.');
+                            /*alertify.success('Randevunuz başarıyla eklendi.');*/
+                        }
+                        else {
+                            $('#saveModal').modal('hide');
+                            //alert("Ekleme Başarısız");
+                            alertify.warning('Randevunu ekleme işleminiz başarısız.');
+                        }
+                    },
+                    error: function () {
+                        $('#saveModal').modal('hide');
+                        //alert("İşlem gerçeklemedi.");
+                        alertify.error('İşlem gerçekleşmedi.');
+                    }
+                });
+            }
+
+            $("#btnSave").click(function () {
+                //if ($('#inputTrainingName').val() === "") {
+                //     alert("Eğitim ismi belirtilmelidir.");
+                // }
+
+                var trainingprog = {
+
+                    TrainingProgramId: $('#trainingProgramId').val(),
+                    EducatorId: $('#selectEducatorId').val(),
+                    TrainingId: $('#selectTrainingId').val(),
+                    StartDate: $('#inputStartDate').val(),
+                    EndDate: $('#inputEndDate').val(),
+                    TrainingName: $('#selectTrainingId').val(),
+                    Description: $('#inputDescription').val(),
+                    EducatorFullName: $('#selectEducatorId').val(),
+
+                }
+                saveTrainingProgram(trainingprog);
+            });
+
+
+            $('#btnUpdate').click(function () {
+                $('#detailModal').modal('hide');
+                openAddOrUpdateTrainingProgram();
+            });
+
+            //$('#btnUpdate').on('click', function () {
+            //    $('#detailModal').modal('hide');
+            //    openAddOrUpdateTrainingProgram();
+            //});
+
+            $('#btnDelete').click(function () {
+                if (confirm('Eğitim saatini silmek istediğinize emin misiniz?')) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/TrainingProgram/Delete?id=' + selectedEvent.Id,
+                        success: function (response) {
+                            if (response === '200') {
+                                var event = calendar.getElementById(selectedEvent.id);
+                                event.remove();
+                                $('#detailModal').modal('hide');
+                                alertify.success('Silme işleminiz başarıyla gerçekleştirildi.');
+                            }
+                        },
+                        error: function () {
+                            $('#detailModal').modal('hide');
+                            alertify.error('Silme işleminiz gerçekleşirken bir hata oluştu.');
+                        }
+                    });
+                }
+            });
+
+            $('.btn btn-success mt-2 float-lg-right').click(function () {
+                $('.btn btn - success mt - 2 float - lg - right').removeClass('active');
+                $(this).addClass('active');
+                getTrainingProgramsByEducator($(this).data('value'));
+            });
+
+        });
+
+    </script>
+}
+<body>
+
+</body>
+
+
+
+
+
+
+
+
+

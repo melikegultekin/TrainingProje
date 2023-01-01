@@ -1,0 +1,176 @@
+﻿
+@{
+    ViewBag.Title = " Denee";
+}
+
+<div id="calender"></div>
+
+<link href="~/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+<!--fullcalendar pluding-->
+<link href="~/fullcalendar/lib/main.css" rel="stylesheet" />
+<script src="~/fullcalendar/lib/main.js"></script>
+<script src="~/fullcalendar/lib/locales-all.js"></script>
+<link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+
+@section Scripts{
+
+
+
+    <script>
+        $(document).ready(function () {
+            var events = [];
+            $.ajax({
+                type: "GET",
+                url: "/TrainingProgram/denee",
+                success: function (data) {
+                    $.each(data, function (i, v) {
+                        events.push({
+                            title: v.EUserName,
+                            description: v.TrainingName,
+                            dateeducation = v.DateEducation,
+                            hours = v.Hours,
+                        });
+                    })
+                    GenerateCalendar(events);
+                },
+                error: function (error) {
+                    alert('failed');
+                }
+            })
+
+
+            function GenerateCalendar(events) {
+                $('#calendar').fullcalendar('destroy');
+                $('#calendar').fullcalendar({
+                    contentHeight: 400,
+                    defaultDate: new Date(),
+                    timeFormat: 'h(:mm)a',
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    },
+                    initialDate: '2022-12-19',
+                    locale: "tr",
+                    editable: true,
+                    dayMaxEvents: true, // allow "more" link when too many events
+                    events: [
+                    })
+            }
+        })
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Takvim</title>
+    <link href="~/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <!--fullcalendar pluding-->
+    <link href="~/fullcalendar/lib/main.css" rel="stylesheet" />
+    <script src="~/fullcalendar/lib/main.js"></script>
+    <script src="~/fullcalendar/lib/locales-all.js"></script>
+    <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+
+    @section Scripts{
+        <script>
+
+            $(document).ready(function () {
+                var events = [];
+                $.ajax({
+                    type: "GET",
+                    url: "/TrainingProgram/Show",
+                    success: function (data) {
+                        $.each(data, function (i, v) {
+                            events.push({
+                                trainingname: v.trainingname,
+                                dateEducation: moment(v.dateEducation),
+                                Hours: arg.Hours,
+                            });
+                        })
+                        GenerateCalendar(events);
+                    },
+                    error: function (error) {
+                        alert('failed');
+                    }
+                })
+
+                function GenerateCalendar(events) {
+                    $('#calendar').fullCalendar('destroy');
+                    $('#calendar').fullCalendar({
+                        contentHeight: 400,
+                        defaultDate: new Date(),
+                        timeFormat: 'h(:mm)a',
+                        header: {
+                            headerToolbar: {
+                                left: 'prev,next today',
+                                center: 'title',
+                                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                            },
+                            editable: true,
+                            dayMaxEvents: true, // allow "more" link when too many events
+                            events: events /*"/TrainingProgram/Show/"*/
+
+                        }
+                    })
+                }
+        </script>
+        eventClick: function (arg) {
+        $('#myModel #eventTitle').text(arg.trainingname);
+        },
+
+
+        calendar.render();
+    });
+
+
+    }
+</head>
+
+<body>
+
+    <div class="container">
+        <div id='calendar'></div>
+
+        <div id="myModal" class"modal fade" role="dialog">
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><span id="eventTitle"></span></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="pDetails"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">&times;</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="~/twitter-bootstrap/js/bootstrap.js"></script>
+</body>
+</html>

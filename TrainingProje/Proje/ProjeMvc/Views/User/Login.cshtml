@@ -1,0 +1,163 @@
+﻿@model Entities.DTOs.UserForLoginDto
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<script src="~/js/site.js"></script>
+<head>
+    <title>Eğitim merkezi</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/js/site.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/css/all.min.css" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/login-form-19/css/style.css">
+
+</head>
+
+
+<body>
+    
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                    <h2 class="heading-section"><b>EĞİTİM MERKEZİ</b></h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="login-wrap py-5">
+                        <div class="img d-flex align-items-center justify-content-center" style="background-image: url(/AdminLTE-3.0.4/login-form-19/images/bg.jpg); "></div>
+                        <h3 class="text-center mb-0">HOŞGELDİNİZ</h3>
+                        <p class="text-center">Aşağıdaki bilgileri girerek oturum açın</p>
+                        @if (TempData["AlertMessage"] != null)
+                        {
+                            <div class="alert alert-success">
+                                <strong>Mesajınız!</strong>@TempData["AlertMessage"]
+                                <button type="button" class="close" data-dismiss="alert">
+                                    <span>&times;</span>
+                                    @*<span>x</span>*@
+                                </button>
+                            </div>
+                        }
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger">
+                                <strong>Mesajınız!</strong>@TempData["ErrorMessage"]
+                                <button type="button" class="close" data-dismiss="alert">
+                                    <span>&times;</span>
+                                    @*<span>x</span>*@
+                                </button>
+                            </div>
+                        }
+                        @using (Html.BeginForm("Login", "User", FormMethod.Post))
+                        {
+                            <div class="form-group">
+                                @Html.Label("Kullanıcı Adı:")
+                                <div class="col-md-10 input-group">
+                                    @Html.TextBoxFor(x => x.UserName, new { autocomplete = "off", size = "34px" })<br />
+                                </div>
+                                @Html.ValidationMessageFor(x => x.UserName, "", new { @class = "text-danger" })
+
+                                @Html.Label("Şifre:")
+                            <div class="col-md-10 input-group">
+                                @Html.PasswordFor(x => x.Password, new { size = "34px" })<br />
+                                @*<input type="button" class="btnShow" id="btnShow" value="göster" style="font-size:8px;" />*@
+                                @*<i class="fa fa-eye parola" id="btnShow" style="font-size:8px;"></i>*@
+                                <i class="fa fa-eye text-white" id="btnShow" style="font-size:20px;"></i>
+                            </div>
+                                @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+                                <br />@*<br />*@
+                                @*@Html.Label("Beni Hatırla:")
+                @Html.CheckBoxFor(x => x.RememberMe)
+                <br /><br />*@
+                                @*<a href="/User/Login" class="card-link">Giriş Yap</a>*@
+                                <button class="btn form-control btn-success rounded submit px-3">Giriş</button>
+                                @*<button id="giris" class="btn form-control btn-success rounded submit px-3" onclick="giris('@Model.UserName')">Giriş</button>*@
+                            </div>
+                        }
+                        <a href="/User/Register" class="btn form-control btn-success rounded submit px-3">Kayıt Ol</a>
+                        <a href="/Educator/LoginE" class="btn form-control btn-success rounded submit px-3">Eğitimci Giriş</a>
+
+                        <div>
+                        </div>
+                    </div>
+                </div>
+    </section>
+
+    <script src="~/AdminLTE-3.0.4/login-form-19/js/jquery.min.js"></script>
+    <script src="~/AdminLTE-3.0.4/login-form-19/js/popper.js"></script>
+    <script src="~/AdminLTE-3.0.4/login-form-19/js/bootstrap.min.js"></script>
+    <script src="~/AdminLTE-3.0.4/login-form-19/js/main.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            console.log("ready index!");
+
+            $("#btnShow").click(function () {
+                /*alert("Handler for .click() called.");*/
+                alert($("#Password").val());
+                $("#Password").attr("type", "text");
+            });
+
+        });
+
+
+
+
+            //function giris(UserName) {
+            //    //var titleName = document.getElementById('TitleId').value;
+
+            //    $.ajax({
+            //        type: 'POST',
+            //        url: '/Uer/Login?UserName=' + UserName,
+            //        success: function (response) {
+            //            if (reponse === '1') {
+            //                swal({
+            //                    title: "Hata",
+            //                    text: "Hatalı kullanıcı....!!",
+            //                    icon: "eror",
+            //                });
+            //            }
+            //            if (reponse === '2') {
+            //                swal({
+            //                    title: "Hata",
+            //                    text: "Hatalı şifre...!",
+            //                    icon: "eror",
+            //                });
+            //            }
+            //            if (response === '200') {
+            //                swal({
+            //                    title: "Başarılı",
+            //                    text: "Giriş işleminiz başarılı!",
+            //                    icon: "success",
+            //                });
+            //                //    .then(() => {
+            //                //    location.reload();
+
+            //                //});
+            //            }
+            //        },
+            //    }).done(function (response) {
+
+            //    })
+            //}
+    </script>
+</body>
+</html>
+
+
+
+

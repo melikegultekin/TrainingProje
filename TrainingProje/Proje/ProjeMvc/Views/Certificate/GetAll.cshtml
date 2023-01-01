@@ -1,0 +1,84 @@
+﻿@using Entities.Concrete
+@model List<Training>
+
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <title>AdminLTE 3 | Dashboard 3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <h4><b>Eğitimler</b></h4>
+        <table id="tbl1" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="font-size:11px;"><b>Eğitimin Adı</b></th>
+                    @*<th><b>Eğitmenin Adı Soyadı</b></th>*@
+                    <th style="width:160px;"></th>
+                </tr>
+            </thead>
+            <!--Model içindeki her item için döngü dönecek ve değerleri tabloya yazılacak-->
+            @foreach (var item in Model)
+            {
+                <tr>
+                    @*<td>@item.TitleName</td>*@
+                    <td style="font-size:11px;"><br />@item.TrainingName</td>
+
+
+                    <td><a href="/Certificate/SL?TrainingId=@item.TrainingId" style="border: none;" class="btn btn-block btn-outline-dark btn-sm float-lg-right"><b>Eğitimi Alan Öğrenciler</b></a></td>
+
+
+                </tr>
+
+            }
+        </table>
+    </div>
+
+   
+    <br />
+    
+
+    <br />
+    <script>
+        $(document).ready(function () {
+            $('#tbl1').DataTable({
+                pageLength: 15,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/tr.json'
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

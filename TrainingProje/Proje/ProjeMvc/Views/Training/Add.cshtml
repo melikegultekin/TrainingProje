@@ -1,0 +1,112 @@
+﻿@model Entities.DTOs.TrainingDetailDto
+@*@using Entities.DTOs
+
+    @model Tuple<SiteDetailDto,SiteAddDetailDto>*@
+
+@{
+    ViewData["Title"] = "Eğitim Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<script src="~/js/site.js"></script>
+<link href="~/jquery-ui-1.11.4/jquery-ui.min.bootstrap.css" rel="stylesheet" />
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<head>
+    <title>AdminLTE 3 | Dashboard 3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<h1>Eğitim Ekle</h1>
+<br />
+<div class="content" style="width: 400px; margin-left: 35%; margin-bottom: 10%; margin-top:5%">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header"><h5 class="title">Eğitim Ekle</h5></div>
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    <div class="form-group">
+                        @Html.Label("Eğitimin İsmi:")<br />
+                        @Html.TextBoxFor(model => model.TrainingName, new { autocomplete = "off" })<br />
+                        @Html.ValidationMessageFor(x => x.TrainingName, "", new { @class = "text-danger" })
+                        <br /><br />
+                        @Html.Label("Eğitimin Toplam saati:")
+                        @Html.TextBoxFor(model => model.TotalHours, new { autocomplete = "off" })<br />
+                        @Html.ValidationMessageFor(x => x.TotalHours, "", new { @class = "text-danger" })
+                        <br /><br />
+                        @Html.Label("Eğitim Kontenjan Sayısı:")
+                        @Html.TextBoxFor(model => model.kota, new { autocomplete = "off" })<br />
+                        @Html.ValidationMessageFor(x => x.kota, "", new { @class = "text-danger" })
+                        <br /><br />
+                        @Html.Label("Eğitimin Başlangıç Tarihi:")
+                        @*<input type="date" name="begin" placeholder="dd-mm-yyyy" autocomplete="off" />*@
+                        @Html.TextBoxFor(model => model.TrainingStartdate, new { @class = "form-control", type = "date" })
+                        @*@Html.TextBoxFor(x => x.Traininglastdate, new { autocomplete = "off" })<br />*@
+                        @Html.ValidationMessageFor(x => x.TrainingStartdate, "", new { @class = "text-danger" })
+                        <br /><br />
+                        @Html.Label("Eğitimin Bitiş Tarihi:")
+                        @*<input type="date" name="begin" placeholder="dd-mm-yyyy" autocomplete="off" />*@
+                        @Html.TextBoxFor(model => model.TrainingLastdate, new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(x => x.TrainingLastdate, "", new { @class = "text-danger" })
+                        <br /><br />
+                        @Html.Label("Son Başvuru Tarihi:")
+                        @Html.TextBoxFor(model => model.Trainingdate, new { @class = "form-control", type = "date" })
+                        @*<input type="date" name="begin" placeholder="dd-mm-yyyy" autocomplete="off" />*@
+                        @*@Html.TextBoxFor(model => model.Trainingdate,"{0:dd/MM/yyyy}", new { @class = "form-control", type = "date" , @id = "datepicker" })*@
+                        @*@Html.TextBoxFor(x => x.Trainingdate, "{0:MM/dd/yyyy}", new { @id = "datepicker" })*@
+                        @*@Html.TextBoxFor(m => m.YourDate, , new { @class = "datefield form-control", @placeholder = "Enter start date..." })*@
+                        <input type="hidden" name="TrainingId" value="TrainingId" />
+                        @Html.ValidationMessageFor(x => x.Trainingdate, "", new { @class = "text-danger" })
+
+                        @*<input type="submit" value="Ekle"
+                            onclick="window.location='/Site/GetAll';" />*@
+
+                        <button id="btn1">Ekle</button>
+
+                    </div>
+
+                }
+                <input hidden id="TrainingId" value="TrainingId" />
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();*@
+@*<script type="text/javascript">*@
+<script>
+    $('#btn1').click(function () {
+        swal("Good job!", "You clicked the button!", "success");
+
+
+        /*var examNot = document.getElementById('ExamNot').value;*/
+        $.ajax({
+            type: 'POST',
+            url: '/Training/Add?trainingId=' + trainingId,
+            success: function (response) {
+                if (response === '200') {
+                    swal("Başarılı!", "Eğitim ekleme işleminiz başarılı!", "success");
+                    location.reload();
+
+                }
+            },
+        }).done(function (response) {
+
+        });
+    });
+</script>
+
+
+
+
+

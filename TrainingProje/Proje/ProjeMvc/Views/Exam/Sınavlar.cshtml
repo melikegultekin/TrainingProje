@@ -1,0 +1,150 @@
+﻿@using Entities.Concrete
+@model List<Exam>
+
+@{
+    ViewData["Title"] = "GetAllT";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="~/css/all.min.css" />
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <title>AdminLTE 3 | Dashboard 3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        @*<h2>Hoşgeldiniz @ViewBag.username</h2>*@
+        <!-- Trigger the modal with a button -->
+        <br />
+        <br />
+
+        <h4><b>Eğitimler</b></h4>
+        <table id="tbl1" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th><b>Eğitimin Adı</b></th>
+                    <th><b>Eğitim başlangıç tarihi</b></th>
+                    <th><b>Eğitim son tarihi</b></th>
+                    <th><b>Son başvuru tarihi</b></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <!--Model içindeki her item için döngü dönecek ve değerleri tabloya yazılacak-->
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Training.TrainingName</td>
+                    <td>@item.Training.TrainingStartdate.ToString("dd.MM.yyyy")</td>
+                    <td>@item.Training.TrainingLastdate.ToString("dd.MM.yyyy")</td>
+                    <td>@item.Training.Trainingdate.ToString("dd.MM.yyyy")</td>
+
+                    <td>
+                        <a href="/Exam/NotBilgisi?TrainingId=@item.TrainingId" style="border: none;" title="NOT BİLGİSİ" class="btn btn-block btn-outline-dark btn-sm">
+                            <i class="nav-icon far fa-address-book text-bg-dark"></i>
+                            @*<i class="nav-icon far fa-plus-square text-success"></i>*@
+                        </a>
+                    </td>
+                    <td>
+                        <button  title="İPTAL" style="border: none;" class="btn btn-block btn-outline-dark btn-sm" onclick="sil( '@item.ExamId')">
+                            @*<i class="nav-icon far fa- text-bg-dark"></i>*@
+                            <b>X</b>  @*<i class="nav-icon far fa-plus-square text-success"></i>*@
+                        </button>
+                    </td>
+
+                </tr>
+
+            }
+        </table>
+    </div>
+
+    <br />
+
+    <br />
+
+    <script>
+        /*$('#tbl1').DataTable();*/
+
+        $(document).ready(function () {
+            $('#tbl1').DataTable({
+                pageLength: 15,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/tr.json'
+                }
+            });
+        });
+
+        function sil(ExamId) {
+            //var titleName = document.getElementById('TitleId').value;
+            swal({
+                title: "İptal butonuna bastınız!",
+                text: "Sınavı iptal etmek istediğinizden emin misiniz? Etkilenen alanlar olabilir!",
+                icon: "warning",
+                button: true,
+                dangerMode: true,
+
+            }).then((result) => {
+                if (result === true) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Exam/Delete?ExamId=' + ExamId,
+                        success: function (response) {
+                            if (response === '5') {
+                                swal({
+                                    title: "Hata",
+                                    text: "Öğrenci Not girişi mevcut!Sertifika tesliminden sonra iptal edilebilir",
+                                    icon: "error",
+                                }).then(() => {
+                                    location.reload();
+
+                                });
+                            }
+                            if (response === '200') {
+                                swal({
+                                    title: "Başarılı",
+                                    text: "Sınav iptal işleminiz yapıldı!",
+                                    icon: "success",
+                                }).then(() => {
+                                    location.reload();
+
+                                });
+                            }
+                        },
+                    }).done(function (response) {
+
+                    })
+                }
+            })
+        }
+    </script>
+
+
+
+
+</body>
+</html>
+
+

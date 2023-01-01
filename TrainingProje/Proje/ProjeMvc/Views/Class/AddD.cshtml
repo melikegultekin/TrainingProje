@@ -1,0 +1,49 @@
+﻿@model Entities.Concrete.Class
+@*@using Entities.DTOs
+
+    @model Tuple<SiteDetailDto,SiteAddDetailDto>*@
+
+@{
+    ViewData["Title"] = "Sınıf Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<script src="~/js/site.js"></script>
+<link href="~/jquery-ui-1.11.4/jquery-ui.min.bootstrap.css" rel="stylesheet" />
+<h1>Sınıf Ekle</h1>
+<br />
+<div class="content" style="width: 400px; margin-left: 35%; margin-bottom: 10%; margin-top:5%">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header"><h5 class="title">Sınıf Ekle</h5></div>
+            <div class="card-body">
+                @using (Html.BeginForm("Add", "Class", FormMethod.Post))
+                {
+                <div class="form-group">
+                    @Html.Label("Sınıf İsmi:")<br />
+                    @Html.TextBoxFor(x => x.ClassName, new { autocomplete = "off" })<br />
+                    @Html.ValidationMessageFor(x => x.ClassName, "", new { @class = "text-danger" })
+                    <input type="hidden" name="TrainingProgramId" asp-for="@Model.TrainingProgramId" />
+                    <br />
+                    @*<input type="submit" value="Ekle"
+        onclick="window.location='/Site/GetAll';" />*@
+                    @Html.Label("Sınıfın Kotası:")<br />
+                    @Html.TextBoxFor(x => x.Kota, new { autocomplete = "off" })<br />
+                    @Html.ValidationMessageFor(x => x.Kota, "", new { @class = "text-danger" })
+                    <br />
+                    <input type="hidden" name="ClassId" value="@Model.ClassId" />
+                    <button class="btn btn-outline-success">Ekle</button>
+                    @*<div class="p-2 w-100 m-0">
+            <a href="/Class/Add" class="btn btn-success">Ekle</a>
+        </div>*@
+                </div>
+                
+                }
+
+                    </div>
+                    @*<a href="/Educator/GetAll" class="btn btn-success">Geri Dön</a>*@
+            </div>
+    </div>
+</div>
+

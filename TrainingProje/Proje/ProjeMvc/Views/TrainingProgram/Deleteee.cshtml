@@ -1,0 +1,110 @@
+﻿@model Entities.Concrete.TrainingProgram
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+
+
+<br />
+<head>
+    <title>Home - AuthTake @*:: w3layouts*@</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/web/css/style.css" type="text/css" media="all" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="~/web/css/slider.css" rel="stylesheet" type="text/css" media="all" />
+    <script src="~/web/js/jquery.min.js"></script>
+    <script src="~/web/js/responsiveslides.min.js"></script>
+
+    <script>
+        // You can also use "$(window).load(function() {"
+        $(function () {
+            // Slideshow 1
+            $("#slider1").responsiveSlides({
+                auto: true,
+                nav: true,
+                speed: 500,
+                namespace: "callbacks",
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <h3>Eğitimi silmek istediğinize emin misiniz?</h3>
+
+    <br />
+
+
+    <div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.Label("Eğitim Setinin Adı:")
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Training.TrainingName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.Label("Eğitim Aralığı:")
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.Label("Eğitim başlangıç tarihi:")
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Training.TrainingStartdate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.Label("Eğitim son tarihi:")
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Training.TrainingLastdate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.Label("Eğitimin kontenjan sayısı:")
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Training.kota)
+            </dd>
+
+
+        </dl>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        @*<hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.UserName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+            </dl>*@
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="TrainingProgramId" />
+            <input type="submit" value="Sil" class="btn btn-danger" />
+            @*<a asp-action="Site/GetAll">Önceki Sayfa</a>*@
+        </form>
+        <br />
+        <br />
+        <a href="/Manager/GetAllT" class="btn btn-success">Geri Dön</a>
+    </div>
+</body>
+</html>
+
+

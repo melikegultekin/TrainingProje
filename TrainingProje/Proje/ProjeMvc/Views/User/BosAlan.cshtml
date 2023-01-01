@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewData["Title"] = "BosAlan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="container">
+        @*<h2>Alerts</h2>*@
+        @*<div class="alert alert-success">
+                <strong>Success!</strong> This alert box could indicate a successful or positive action.
+            </div>
+            <div class="alert alert-info">
+                <strong>Info!</strong> This alert box could indicate a neutral informative change or action.
+            </div>*@
+        <div class="alert alert-warning">
+            <strong>Uyarı!</strong> Tüm alanları doldurduğunuzdan emin olun!!
+        </div>
+        <div class="p-5 w-50 m-0">
+            <table class="table table-bordered">
+                <tr>
+                    @*<th> @ViewBag.mesaj </th>*@
+                    <td><a href="/Manager/Logout" class="btn btn-success">Çıkış Yap</a></td>
+                    <td><a href="/Manager/GetAll" class="btn btn-success">Geri Dön</a></td>
+                </tr>
+
+            </table>
+        </div>
+        @*<div class="alert alert-danger">
+                <strong>Danger!</strong> This alert box could indicate a dangerous or potentially negative action.
+            </div>*@
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+</body>
+</html>
+
+@*<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    </head>
+    <body>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <div class="p-5 w-50 m-0">
+            <table class="table table-bordered">
+                <tr>
+                    <th> @ViewBag.bosAlan</th>
+                    <td><a href="/User/Logout" class="btn btn-success">Çıkış Yap</a></td>
+                    <td><a href="/Site/GetAll" class="btn btn-success">Geri Dön</a></td>
+                </tr>
+
+            </table>
+        </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+    </body>
+    </html>*@
+

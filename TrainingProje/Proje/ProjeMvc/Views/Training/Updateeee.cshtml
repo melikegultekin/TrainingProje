@@ -1,0 +1,107 @@
+﻿@model Entities.Concrete.Training
+
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<script src="~/js/site.js"></script>
+<h1>Eğitim Güncelle</h1>
+<br />
+<div class="content" style="width: 400px; margin-left: 35%; margin-bottom: 10%; margin-top:5%">
+    @if (TempData["AlertMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            <strong>Mesajınız!</strong>@TempData["AlertMessage"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+                @*<span>x</span>*@
+            </button>
+        </div>
+    }
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header"><h5 class="title">Güncelle</h5></div>
+            <div class="card-body">
+                @using (Html.BeginForm("Update", "Training", FormMethod.Post))
+                {
+                <div class="form-group">
+                    @Html.Label("Eğitimin İsmi:")<br />
+                    @Html.TextBoxFor(x => x.TrainingName, new { autocomplete = "off" })<br />
+                    @*<input type="hidden" name="TrainingId" value="@Model.TrainingId" />*@
+                    @Html.ValidationMessageFor(x => x.TrainingName, "", new { @class = "text-danger" })
+                    <br /><br />
+                    @Html.Label("Eğitimin kontenjan sayısı:")
+                    @Html.TextBoxFor(x => x.kota, new { autocomplete = "off" })<br />
+                    @*<input type="hidden" name="TrainingId" value="@Model.TrainingId" />*@
+                    @Html.ValidationMessageFor(x => x.kota, "", new { @class = "text-danger" })
+                    <br /><br />
+                    @Html.Label("Eğitimin Toplam saati:")
+                    @Html.TextBoxFor(model => model.TotalHours, new { autocomplete = "off" })<br />
+                    @Html.ValidationMessageFor(x => x.TotalHours, "", new { @class = "text-danger" })
+                    @*<input type="hidden" name="TrainingId" value="@Model.TrainingId" />*@
+                    <br /><br />
+                    @Html.Label("Eğitim başlangıç tarihi:")
+                    @*<input type="hidden" name="TrainingId" value="@Model.TrainingId" />*@
+                    @Html.TextBox("Trainingstartdate", Model.TrainingStartdate.ToString("yyyy-MM-dd"), new { @class = "form-control", @type = "date" })
+                    @*@Html.TextBoxFor(model => model.Trainingstartdate, new { @class = "form-control", type = "date" })*@
+                    @*@Html.TextBoxFor(x => x.Traininglastdate, new { autocomplete = "off" })<br />*@
+                    @Html.ValidationMessageFor(x => x.TrainingStartdate, "", new { @class = "text-danger" })
+                    <br /><br />
+                    @Html.Label("Eğitim son tarihi:")
+                    @*//id,value*@
+                    @Html.TextBox("Traininglastdate", Model.TrainingLastdate.ToString("yyyy-MM-dd"), new { @class = "form-control", @type = "date" })
+                    @*@Html.TextBoxFor(model => model.Traininglastdate, new { @class = "form-control", type = "date" })*@
+                    @Html.ValidationMessageFor(x => x.TrainingLastdate, "", new { @class = "text-danger" })
+                    <br /><br />
+                    @Html.Label("Son başvuru tarihi:")
+                    @Html.TextBox("Trainingdate", Model.Trainingdate.ToString("yyyy-MM-dd"), new { @class = "form-control", @type = "date" })
+                    @Html.ValidationMessageFor(x => x.Trainingdate, "", new { @class = "text-danger" })
+                    <br /><br />
+
+                    <input type="hidden" name="TrainingId" value="@Model.TrainingId" />
+                    <button>Ekle</button>
+
+                </div>
+                    @*<script type="text/javascript">
+                $(function () {
+                    $('#datetimepicker1').datetimepicker();
+                });
+            </script>*@
+                }
+                <a href="/Manager/GetAll" class="btn btn-success">Geri Dön</a>
+            </div>
+            @*<script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>*@
+            
+        </div>
+    </div>
+</div>
+
+
+
+@*@Html.DisplayFor(model => model.Trainingdate, new { @class = "form-control", type = "date" })*@
+@*<div class="col-md-10 input-group">
+        <input type="date" name="Trainingdate" value="@Model.Trainingdate" />
+
+    </div>
+    <input type="hidden" name="TrainingId" value="@Model.TrainingId" />*@
+@*<input type="hidden" name="SiteId" value="@Model.SiteId" />*@
+@*@Html.EditorFor(model => model.Trainingdate, new { htmlAttributes = new { @value = Model.Trainingdate, @class = "datepicker" } })*@
+@*<div class='input-group date' id='datetimepicker1'>
+        <input type='text' class="form-control" value="@Model.Trainingdate" />
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+    </div>*@
+
+
+
+
+
+
+
+

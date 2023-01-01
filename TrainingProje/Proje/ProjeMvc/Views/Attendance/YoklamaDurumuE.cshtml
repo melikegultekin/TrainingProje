@@ -1,0 +1,152 @@
+﻿@using Entities.Concrete
+@model List<Attendance>
+
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_EducatorLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+
+        <br />
+        <br />
+        <h4><b>@ViewBag.UserName / Öğrencisinin Yoklama Listesi</b></h4>
+        <table id="tbl1" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th><b>Dersin Adı</b></th>
+                    <th><b>Öğretmenin Adı</b></th>
+                    <th><b>Dersin Başlangıç Tarihi</b></th>
+                    <th><b>Dersin Bitiş Tarihi</b></th>
+                    <th><b>Durumu</b></th>
+                    <th></th>
+                    @*<th><b>Eğitmenin Adı Soyadı</b></th>*@
+
+                </tr>
+            </thead>
+            <!--Model içindeki her item için döngü dönecek ve değerleri tabloya yazılacak-->
+            @foreach (var item in Model)
+            {
+                <tr>
+                    @*<td>@item.TitleName</td>*@
+                    <td>@item.TrainingProgramDetail.Lesson.LessonName</td>
+                    <td>@item.TrainingProgramDetail.Educator.EducatorFullName</td>
+                    <td>@item.TrainingProgramDetail.StartDate</td>
+                    <td>@item.TrainingProgramDetail.EndDate</td>
+                    <td>@item.Status</td>
+                    <td>
+                        <button type="button" class="btn btn-outline-dark btn-sm" style="border: none;" data-toggle="modal" data-target=@("#myModal" +item.AttendanceId )><b>Düzelt</b></button>
+
+                        <div class="modal fade" id=@($"myModal{item.AttendanceId}") role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content col-md-6">
+                                    <div class="modal-header">
+                                        <label>YOKLAMA DURUMU:</label>@*autocomplete = "off"*@
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <br />
+                                        <input type="hidden" id="AttendanceId" value="@item.AttendanceId" />
+                                        <center>
+                                            <button id="btnEvet" class="btn btn-info" value="@item.UserId">+</button>
+                                            <button id="btnHayır" class="btn btn-danger" value="@item.UserId">-</button>
+                                        </center>
+
+                                        @*<a href="/Message/Gonder?UserName=@item.UserName" class="btn btn-success">Gönder</a>*@
+                                        @*<input type="submit" value="Gonder" onclick="window.location='/Message/Gonder';" />*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <input hidden id="UserId" value="@item.UserId" />
+                <input hidden id="AttendanceId" value="@item.AttendanceId" />
+            }
+        </table>
+    </div>
+
+
+    <br />
+
+
+    <br />
+    <script>
+        $(document).ready(function () {
+            $('#tbl1').DataTable({
+                pageLength: 15,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/tr.json'
+                }
+            });
+        });
+
+        $('#btnEvet').on('click', function () {
+
+            var attendanceId = document.getElementById('AttendanceId').value;
+            var userId = document.getElementById('UserId').value;
+            $.ajax({
+                type: 'GET',
+                url: '/Attendance/UpdateE?attendanceId='+attendanceId+'&userId='+userId,
+                success: function (response) {
+                    if (response === '200') {
+                        //url: '/Attendance/YoklamaDurumuE?attendanceId='+attendanceId+'&userId='+userId,
+                        location.reload();
+
+                    }
+                },
+            }).done(function (response) {
+
+            });
+
+        });
+
+        $('#btnHayır').on('click', function () {
+             
+            var attendanceId = document.getElementById('AttendanceId').value;
+            var userId = document.getElementById('UserId').value;
+            $.ajax({
+                type: 'GET',
+                url: '/Attendance/UpdateH?attendanceId='+attendanceId+'&userId='+userId,
+                success: function (response) {
+                    if (response === '200') {
+                        //url: '/Attendance/YoklamaDurumuE?attendanceId='+attendanceId+'&userId='+userId,
+                        location.reload();
+
+                    }
+                },
+            }).done(function (response) {
+
+            });
+
+        });
+    </script>
+</body>
+</html>
+
+

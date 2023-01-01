@@ -1,0 +1,86 @@
+﻿@*@model ProjeMvc.Models.ClassTrainingProgram*@
+@model Entities.Concrete.Class
+
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<script src="~/js/site.js"></script>
+<h1>Eğitim Güncelle</h1>
+<br />
+<div class="content" style="width: 400px; margin-left: 35%; margin-bottom: 10%; margin-top:5%">
+    @if (TempData["AlertMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            <strong>Mesajınız!</strong>@TempData["AlertMessage"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+                @*<span>x</span>*@
+            </button>
+        </div>
+    }
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header"><h5 class="title">Güncelle</h5></div>
+            <div class="card-body">
+                @using (Html.BeginForm("Update", "TrainingProgram", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        @Html.Label("Eğitim Setinin Adı:")
+                        <br />
+                        @Html.TextBoxFor(model => model.Training.TrainingName, new { autocomplete = "off" })<br />
+                        @Html.ValidationMessageFor(x => x.Training.TrainingName, "", new { @class = "text-danger" })
+                        @*<input type="hidden" name="TrainingId" value="@Model.TrainingId" />*@
+                        <br /><br />
+                        @Html.Label("Eğitim Aralığı:")
+                        <br />
+                        @Html.TextBoxFor(model => model.TrainingProgram.Name, new { autocomplete = "off" })<br />
+                        @Html.ValidationMessageFor(x => x.TrainingProgram.Name, "", new { @class = "text-danger" })
+                        @*<input type="hidden" name="TrainingId" value="@Model.TrainingId" />*@
+                        <br /><br />
+                        @Html.Label("Sınıfı:")
+                        <br />
+                        @Html.TextBoxFor(model => model.ClassName, new { autocomplete = "off" })<br />
+                        @Html.ValidationMessageFor(x => x.ClassName, "", new { @class = "text-danger" })
+                        @*<input type="hidden" name="TrainingId" value="@Model.TrainingId" />*@
+                        <br /><br />
+                        @Html.Label("Sınıfın Kotası:")
+                        <br />
+                        @Html.TextBoxFor(model => model.Kota, new { autocomplete = "off" })<br />
+                        @Html.ValidationMessageFor(x => x.Kota, "", new { @class = "text-danger" })
+                        @*<input type="hidden" name="TrainingId" value="@Model.TrainingId" />*@
+                        <br /><br />
+                        <input type="hidden" name="ClassId" value="@Model.ClassId" />
+                        <button>Güncelle</button>
+
+                    </div>
+                    @*<script type="text/javascript">
+                            $(function () {
+                                $('#datetimepicker1').datetimepicker();
+                            });
+                        </script>*@
+                }
+                <a href="/TrainingProgram/GetAll" class="btn btn-success">Geri Dön</a>
+            </div>
+            @*<script type="text/javascript">
+                    $(function () {
+                        $('#datetimepicker1').datetimepicker();
+                    });
+                </script>*@
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

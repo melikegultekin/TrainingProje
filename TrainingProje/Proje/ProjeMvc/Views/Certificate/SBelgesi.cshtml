@@ -1,0 +1,108 @@
+﻿@model Entities.Concrete.Exam
+
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <title>AdminLTE 3 | Dashboard 3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <br />
+
+
+        <div class="p-5 w-100 m-0">
+            @*<a href="/Training/Add" class="btn btn-success">Eğitim Ekle</a>*@
+        </div>
+        
+
+
+        <table class="table table-bordered">
+            <tr>
+                <h2>
+                <th><b><center>EĞİTİM SERTİFİKASI</center></b></th>
+            </tr>
+            <tr>
+                </h2>
+                <td>
+                    <b>
+                        <center> Aşağıda bilgileri bulunan katılımcımız,</center>
+                        <center>Kursumuz tarfından düzenlenen <u><i>"@Model.Training.TrainingName"</i></u> eğitimine katılmış ve belirtilen</center>
+                        <center>tarihte eğitimini tamamlamıştır.</center>
+
+                    </b>
+                </td>
+            </tr>
+            <br />
+            <input hidden id="TrainingId" value="@Model.TrainingId" />
+            <br />
+            <tr>
+                <th>
+                    <b>Adı Soyadı:</b>    @Model.User.FirstName @Model.User.LastName
+                    <br />
+                    <b>Eğitimin Adı:</b> @Model.Training.TrainingName
+                    <br />
+                    <b>Eğitim Tarihi:</b> @Model.Training.TrainingLastdate.ToString("dd.MM.yyyy")
+                    <br />
+                    <b>Eğitim Süresi:</b> @Model.Training.TotalHours
+                </th>
+
+            </tr>
+
+            @*<th><b>Öğrencinin Sertifika Durumu</b></th>*@
+            @*<th><b>Eğitmenin Adı Soyadı</b></th>*@
+
+
+            <!--Model içindeki her item için döngü dönecek ve değerleri tabloya yazılacak-->
+            <!--foreach (var item in Model)
+            {
+                <tr>
+                    <td>item.Training.TrainingName</td>
+                    <td>item.User.FirstName</td>
+                    <td>item.User.LastName</td>
+                    <td>item.Status</td>
+
+                    <!--<td><a href="/Certificate/SBelgesi?TrainingId=item.TrainingId&UserId=item.UserId" class="btn btn-warning">Sertifika Belgesi</a></td>
+                    <td><a href="/Training/Update?CertificateId=item" class="btn btn-danger">Reddedildi</a></td>
+                        <td><a href="/Waiting/TumBas?CertificateId=item" class="btn btn-success">Hazır</a></td>
+                    <td><a href="/Waiting/AlanK?CertificateId=item.CertificateId" class="btn btn-success">Eğitimi alan kullanıcılar</a></td>
+
+                <!--</tr>
+
+            }-->
+        </table>
+    </div>
+
+
+    <br />
+
+
+    <br />
+
+</body>
+</html>
+
+

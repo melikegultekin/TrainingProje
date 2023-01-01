@@ -1,0 +1,64 @@
+﻿@model Entities.Concrete.User
+
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<script src="~/js/site.js"></script>
+<h1>Eğitim Güncelle</h1>
+<br />
+<div class="content" style="width: 400px; margin-left: 35%; margin-bottom: 10%; margin-top:5%">
+    @if (TempData["AlertMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            <strong>Mesajınız!</strong>@TempData["AlertMessage"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+                @*<span>x</span>*@
+            </button>
+        </div>
+    }
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header"><h5 class="title">Güncelle</h5></div>
+            <div class="card-body">
+                @using (Html.BeginForm("UpdateS", "User", FormMethod.Post))
+                {
+                <div class="form-group">
+                    @Html.Label("Sınıf seçiniz:")<br />
+                    @Html.DropDownListFor(x => x.ClassId, (List<SelectListItem>)ViewBag.Classes, "Seçiniz", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.ClassId, "", new { @class = "text-danger" })
+                    <br /><br />
+                    <input hidden name="UserId" value="@Model.UserId" />
+                    <button>Ekle</button>
+
+                </div>
+                    @*<script type="text/javascript">
+                            $(function () {
+                                $('#datetimepicker1').datetimepicker();
+                            });
+                        </script>*@
+                }
+                <a href="/User/GetAllU" class="btn btn-success">Geri Dön</a>
+            </div>
+            @*<script type="text/javascript">
+                    $(function () {
+                        $('#datetimepicker1').datetimepicker();
+                    });
+                </script>*@
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

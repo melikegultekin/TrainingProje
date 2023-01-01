@@ -1,0 +1,49 @@
+﻿@model Entities.DTOs.TrainingProgramDetailDto
+@*@using Entities.DTOs
+
+    @model Tuple<SiteDetailDto,SiteAddDetailDto>*@
+
+@{
+    ViewData["Title"] = "Eğitim Programı Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<script src="~/js/site.js"></script>
+<link href="~/jquery-ui-1.11.4/jquery-ui.min.bootstrap.css" rel="stylesheet" />
+<h1>Eğitim Programı Ekle</h1>
+<br />
+<div class="content" style="width: 400px; margin-left: 35%; margin-bottom: 10%; margin-top:5%">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header"><h5 class="title">Eğitim Programı Ekle</h5></div>
+            <div class="card-body">
+                @using (Html.BeginForm("Add", "TrainingProgram", FormMethod.Post))
+                {
+                <div class="form-group">
+                    @Html.Label("Eğitimin Adı:")<br />
+                    @Html.DropDownListFor(x => x.LessonId, (List<SelectListItem>)ViewBag.Liste, "Seçiniz", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.LessonId, "", new { @class = "text-danger" })
+                    <br /><br />
+                    @*@Html.Label("Eğitim günü seçiniz:")<br />
+                    @Html.DropDownListFor(x => x.WhichDayName, (List<SelectListItem>)ViewBag.Day, "Seçiniz", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.WhichDayName, "", new { @class = "text-danger" })*@
+                    <br /><br />
+                    @*@Html.Label("Eğitim günü seçiniz:")<br />
+                    @Html.TextBoxFor(x => x.Hours, (List<SelectListItem>)ViewBag.Day, "Seçiniz", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Hours, "", new { @class = "text-danger" })
+                    <br /><br />*@
+                    <button>Ekle</button>
+
+                </div>
+                }
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+

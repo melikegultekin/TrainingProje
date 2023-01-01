@@ -1,0 +1,114 @@
+﻿@using Entities.Concrete
+@model List<TrainingProgram>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Takvim</title>
+    <link href="~/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <!--fullcalendar pluding-->
+    <link href="~/fullcalendar/lib/main.css" rel="stylesheet" />
+    <script src="~/fullcalendar/lib/main.js"></script>
+    <script src="~/fullcalendar/lib/locales-all.js"></script>
+    <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                initialDate: '2022-12-19',
+                locale: "tr",
+                /*themeSystem: "bootstrap",*/
+                navLinks: true, // can click day/week names to navigate views
+                selectable: true,
+                selectMirror: true,
+                select: function (arg) {
+                    var title = prompt('Event Title:' + /*arg.start*/);
+                    if (title) {
+                        calendar.addEvent({
+                            title: title,
+                            trainingname = arg.trainingname,
+                            start: arg.start,
+                            hours: arg.hours,
+
+                        })
+                    }
+                    calendar.unselect()
+                },
+                eventClick: function (arg) {
+                    if (confirm('Bu etkinliği silmek istediğinizden emin misiniz?')) {
+                        arg.event.remove()
+                    }
+                },
+                editable: true,
+                dayMaxEvents: true, // allow "more" link when too many events
+                /*events: "/TrainingProgram/deneme/"*/
+                
+                
+
+            });
+
+            calendar.render();
+        });
+
+    </script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div id='calendar'></div>
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-context">
+                    <div class="model-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><span id="eventTitle"></span></h4>
+                    </div>
+                    <div class="modal-body">
+                        <button id="btnDelete" class="btn btn-default btn-sm pull-right">
+                            <span class="glyphicon glyphicon-remove"></span> SİL
+                        </button>
+                        <button id="btnEdit" class="btn btn-default btn-sm pull-right" style="margin-right:5px;">
+                            <span class="glyphicon glyphicon-pencil"></span> DÜZENLE
+                        </button>
+                        <p id="pDetails"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/twitter-bootstrap/js/bootstrap.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+@*//$('#myModal #eventTitle').text(arg.trainingname);
+                        //var $discription = $('
+    <div />');
+                        //$discription.append($('
+    <p />').html('<b>TrainingName</b>' + arg.trainingname));
+                        //$('#myModal').modal();*@

@@ -1,0 +1,100 @@
+﻿@model Entities.DTOs.EducatorForRegisterDto
+
+@{
+    ViewData["Title"] = "RegisterE";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html>
+<head>
+    <script src="~/js/site.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<h1>Eğitimci Kayıt Sayfası</h1>
+<br />
+<body>
+    <div class="content" style="width: 400px; margin-left: 35%; margin-bottom: 10%; margin-top:5%">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header"><h5 class="title">Eğitimci Üye Ol</h5></div>
+                <div class="card-body">
+                    @if (TempData["AlertMessage"] != null)
+                    {
+                        <div class="alert alert-danger">
+                            <strong>Mesajınız!</strong>@TempData["AlertMessage"]
+                            <button type="button" class="close" data-dismiss="alert">
+                                <span>&times;</span>
+                                @*<span>x</span>*@
+                            </button>
+                        </div>
+                    }
+                    @using (Html.BeginForm("RegisterE", "Educator", FormMethod.Post))
+                    {
+
+                <div class="form-group">
+                    @Html.Label("Tc kimlik numaranız:")
+                    @Html.TextBoxFor(x => x.Tc, new { autocomplete = "off" })<br />
+                    @Html.ValidationMessageFor(x => x.Tc, "BBBBBBBBBB", new { @class = "text-danger" })
+                    <br /><br />
+                    @Html.Label("Kullanıcı Adınız:")<br />
+                    @Html.TextBoxFor(x => x.EUserName, new { autocomplete = "off" })<br />
+                    @Html.ValidationMessageFor(x => x.EUserName, "", new { @class = "text-danger" })
+                    <br /><br />
+                    @Html.Label("Adınız Soyadınız:")<br />
+                    @Html.TextBoxFor(x => x.EducatorFullName, new { autocomplete = "off" })<br />
+                    @Html.ValidationMessageFor(x => x.EducatorFullName, "", new { @class = "text-danger" })
+                    <br /><br />
+                    @Html.Label("Email Adresiniz:")<br />
+                    @Html.TextBoxFor(x => x.Email, new { autocomplete = "off" })<br />
+                    @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+                    <br /><br />
+                    @Html.Label("Unvan seçiniz:")<br />
+                    @Html.DropDownListFor(x => x.TitleId, (List<SelectListItem>)ViewBag.Liste, "Seçiniz", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.TitleId, "", new { @class = "text-danger" })
+                    <br /><br />
+                    @Html.Label("Şifre:")
+                    <div class="col-md-10 input-group">
+                        @Html.PasswordFor(x => x.Password)<br />
+                        <input type="button" class="btnShow" id="btnShow" value="göster" style="font-size:8px;" />
+                    </div>
+                    @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+                    <br /><br />
+                    @Html.Label("Şifre tekrarı:")
+                    <div class="col-md-10 input-group">
+                        @Html.PasswordFor(x => x.Passwordtekrar)<br />
+                        <input type="button" class="btnShow" id="btnShow2" value="göster" style="font-size:8px;" />
+                    </div>
+                    @Html.ValidationMessageFor(x => x.Passwordtekrar, "", new { @class = "text-danger" })
+                    <br /><br />
+                    <button>Kaydet</button>
+
+                </div>
+                    }
+                    @*<input type="submit" value="Giriş Yap"
+                           onclick="window.location='/User/Login';" />*@
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+
+        $(document).ready(function () {
+            console.log("ready index!");
+
+            $("#btnShow").click(function () {
+                /*alert("Handler for .click() called.");*/
+                alert($("#Password").val());
+                $("#Password").attr("type", "text");
+            });
+            $("#btnShow2").click(function () {
+                /*alert("Handler for .click() called.");*/
+                alert($("#Passwordtekrar").val());
+                $("#Passwordtekrar").attr("type", "text");
+            });
+        });
+    </script>
+</body>
+</html>

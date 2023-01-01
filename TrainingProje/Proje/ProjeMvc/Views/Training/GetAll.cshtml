@@ -1,0 +1,201 @@
+﻿@using Entities.Concrete
+@model List<Training>
+
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <br />
+
+
+
+        <div class="p-5 w-50 m-0">
+        </div>
+        <h4><b>Tüm Eğitimler</b></h4>
+        <table id="tbl1" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th><b>Eğitimin Adı</b></th>
+                    <th><b>Eğitim başlangıç tarihi</b></th>
+                    <th><b>Eğitim son tarihi</b></th>
+                    <th><b>Son başvuru tarihi</b></th>
+                    <th><b>Eğitimin toplam saati</b></th>
+                    <th><b></b></th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.TrainingName</td>
+                    <td>@item.TrainingStartdate.ToString("dd.MM.yyyy")</td>
+                    <td>@item.TrainingLastdate.ToString("dd.MM.yyyy")</td>
+                    <td>@item.Trainingdate.ToString("dd.MM.yyyy")</td>
+                    <td>@item.TotalHours</td>
+
+                    <input type="hidden" name="UserId" value="UserId" />
+                    <td><a href="/Training/Dersler?TrainingId=@item.TrainingId" title="EĞİTİMİN İÇERDİĞİ DERSLER" style="border: none;" class="btn btn-outline-dark btn-sm"><b>Dersler</b></a></td>
+                    @*<td><a href="/Training/Basvur?TrainingId=@item.TrainingId" class="btn btn-outline-primary">Başvur</a></td>*@
+                    <td><button id="basvurr" class="btn btn-outline-dark btn-sm" title="EĞİTİME BAŞVUR" style="border: none;" onclick="basvur( '@item.TrainingId')"><b>Başvur</b></button></td>
+                </tr>
+
+            }
+
+        </table>
+
+    </div>
+    <br />
+    @*<input hidden id="TrainingId" value="@Model.TrainingId" />*@
+    <br />
+    <script>
+        $(document).ready(function () {
+            $('#tbl1').DataTable({
+                pageLength: 15,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/tr.json'
+                }
+            });
+        });
+
+        function basvur(trainingId) {
+            //var trainingId = document.getElementById('TrainingId').value;
+            swal({
+                title: "Başvur butonuna bastınız!",
+                text: "Eğitime başvurmak istediğinizden emin misiniz?",
+                icon: "warning",
+                button: true,
+                dangerMode: true,
+
+            }).then((result) => {
+                if (result === true) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Training/Basvur?trainingId=' + trainingId,
+                        success: function (response) {
+                            if (response === '5') {
+                                swal({
+                                    title:"Uyarı",
+                                    text: "Başvurunuz yapılamadı! Aynı tarihlerde iki eğitim alamazsınız!",
+                                    icon: "error",
+                                }).then(() => {
+                                    location.reload();
+
+                                });
+                            }
+
+                            if (response === '200') {
+                                swal({
+                                    title:"Tebrikler",
+                                    text: "Başvurunuz yapıldı!",
+                                    icon: "success",
+                                }).then(() => {
+                                    location.reload();
+
+                                });
+                            }
+                        },
+                    }).done(function (response) {
+
+                    })
+                }
+            })
+        }
+            //swal({
+            //    title: "Are you sure?",
+            //    text: "You will not be able to recover this imaginary file!",
+            //    type: "warning",
+            //    showCancelButton: true,
+            //    confirmButtonColor: "#DD6B55",
+            //    confirmButtonText: "Yes, delete it!",
+            //    cancelButtonText: "No, cancel plx!",
+            //    closeOnConfirm: false,
+            //    closeOnCancel: false
+            //},
+            //    function (isConfirm) {
+            //        if (isConfirm) {
+            //            swal("Deleted!", "Your imaginary file has been deleted.", "success");
+            //        } else {
+            //            swal("Cancelled", "Your imaginary file is safe :)", "error");
+            //        }
+            //    });
+
+
+
+
+
+
+
+
+
+
+
+                // }
+                //        //}).then((result) => {
+                        //    if (result.value) {
+                        //        /*window.location = '/Training/Basvur?TrainingId=' + trainingId;*/
+                        //        location.reload('/Training/Basvur?TrainingId=' + trainingId);
+                        //    }
+                        //});
+
+                //location.reload('/Training/Basvur?TrainingId=' + trainingId);
+                //swal("Başvurunuz yapıldı!", {
+                //    icon: "success",
+                //});
+
+                //        } else {
+                //    swal("Başvuru yapılmadı!");
+                //}
+                    //})
+
+                //function (isConfirm) {
+                //    if (!isConfirm) return;
+                //    $.ajax({
+                //        url: '/Trainig/Basvur?trainingId=' + trainingId,
+                //        type: "",
+
+                //    })
+                //}
+
+                    //$.ajax({
+                    //    type: 'GET',
+                    //    url: '/Exam/Kaydet?trainingId=' + trainingId + '&userId=' + userId + '&examId=' + examId + '&examNot=' + examNot,
+                    //    success: function (response) {
+                    //        if (response === '200') {
+                    //            location.reload();
+
+                    //        }
+
+                    //    },
+                    //}).done(function (response) {
+
+
+    </script>
+
+</body>
+</html>

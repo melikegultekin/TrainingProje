@@ -1,0 +1,62 @@
+﻿@model Entities.Concrete.Class
+
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<script src="~/js/site.js"></script>
+<h1>Sınıf Güncelle</h1>
+<br />
+<div class="content" style="width: 400px; margin-left: 35%; margin-bottom: 10%; margin-top:5%">
+    @if (TempData["AlertMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            <strong>Uyarı!</strong>@TempData["AlertMessage"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+                @*<span>x</span>*@
+            </button>
+        </div>
+    }
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header"><h5 class="title">Güncelle</h5></div>
+            <div class="card-body">
+                @using (Html.BeginForm("Update", "Class", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        @Html.Label("Sınıfın Adı:")<br />
+                        @Html.TextBoxFor(x => x.ClassName, new { autocomplete = "off" })<br />
+                        @*@Html.DropDownListFor(x => x.TitleName, (List<SelectListItem>)ViewBag.Unvan, "Seçiniz", new { @class = "form-control" })<br />*@
+                        @Html.ValidationMessageFor(x => x.ClassName, "", new { @class = "text-danger" })
+                        <br /><br />
+                        <input type="hidden" name="ClassId" value="@Model.ClassId" />
+                        @*<td><a href="/Class/Update?ClassId=@Model.ClassId" class="btn btn-primary">Güncelle</a></td>*@
+                        <button>Güncelle</button>
+
+                    </div>
+                }
+                <a href="/Class/GetAll" class="btn btn-success">Geri Dön</a>
+            </div>
+            @*<script type="text/javascript">
+                    $(function () {
+                        $('#datetimepicker1').datetimepicker();
+                    });
+                </script>*@
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

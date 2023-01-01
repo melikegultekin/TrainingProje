@@ -1,0 +1,194 @@
+﻿@using Entities.Concrete
+@model List<Waiting>
+
+@{
+    ViewData["Title"] = "AlanK";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        @*<h2>Hoşgeldiniz @ViewBag.username</h2>*@
+        <!-- Trigger the modal with a button -->
+        <br />
+
+       
+        
+        <br />
+
+        <h4><b>Eğitimi Alan Öğrenciler</b></h4>
+        <table id="tbl1" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th><b>Öğrenci Adı:</b></th>
+                    <th><b>Öğrenci Soyadı:</b></th>
+                    <td><b>Sınıfı</b></td>
+                    <th></th>
+                </tr>
+            </thead>
+            <!--Model içindeki her item için döngü dönecek ve değerleri tabloya yazılacak-->
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.User.FirstName</td>
+                    <td>@item.User.LastName</td>
+         
+                    <td>
+
+                        @*<label class="form-control-label">Sınıfın Adı:</label>*@
+                        <select id="@item.UserId" name="ClassId" class="form-select" asp-items="@(List<SelectListItem>)ViewBag.Classes">
+                            <option value="0">Seçiniz!!</option>
+                        </select>
+                        <input type="hidden" name="WaitingId" value="@item.WaitingId" />
+                        <button id="btnHaftaİci2" class="btn btn-outline-dark btn-sm" style="border: none;" value="@item.UserId" onclick="OgrenciDersEkle('@item.UserId', '@item.WaitingId')">EKLE</button>
+                        @*<button class="btn btn-info">Ekle</button>*@
+                        @*<a href="/UserProgram/Add?WaitingId=@item.UserId" class="btn btn-success">EKLE</a>*@
+
+                    </td>
+                    
+                    <td><button class="btn btn-outline-dark btn-sm" style="border: none;"  onclick="sil('@item.WaitingId')">SİL</button></td>
+                </tr>
+                <input hidden id="WaitingId" value="@item.WaitingId" />
+                <input hidden id="UserId" value="@item.UserId" />
+                
+            }
+        </table>
+    </div>
+    <script>
+
+        $(document).ready(function () {
+            $('#tbl1').DataTable({
+                pageLength: 15,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/tr.json'
+                }
+            });
+        });
+
+        function sil(WaitingId) {
+            //var titleName = document.getElementById('TitleId').value;
+            swal({
+                title: "Sil butonuna bastınız!",
+                text: "Öğrenciyi başvurusu kabul edilenler listesinden silmek istediğinizden emin misiniz? Etkilenen alanlar olabilir!",
+                icon: "warning",
+                button: true,
+                dangerMode: true,
+
+            }).then((result) => {
+                if (result === true) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/Waiting/Delete?WaitingId=' + WaitingId,
+                        success: function (response) {
+                            if (response === '200') {
+                                swal({
+                                    title: "Başarılı",
+                                    text: "Öğrenciyi başvurusu kabul edilenler listesinden silme işleminiz yapıldı!",
+                                    icon: "success",
+                                }).then(() => {
+                                    location.reload();
+
+                                });
+                            }
+                        },
+                    }).done(function (response) {
+
+                    })
+                }
+            })
+        }
+
+
+        function OgrenciDersEkle(userId, waitingId) {
+
+            var classId = $("#" + userId).val();
+            if (classId === 0)
+            {
+                alertify.error('Seçilen öğrenci için Bir sınıf seçiniz!');
+            }
+            $.ajax({
+                type: 'GET',
+                url: '/User/UserProg?waitingId=' + waitingId + '&userId=' + userId + '&classId=' + classId,
+                success: function (response) {
+                    
+                    if (response === '200') {
+                        location.reload();
+
+                    }
+                },
+            }).done(function (response) {
+
+            });
+        }
+        //$('#btnHaftaİci').on('click', function () {
+        //    /*var classId = { classId: $('#classId').val, }*/
+        //    var classId = $('#ClassId');
+        //    $('#ClassId').each(function (classId, item) {
+        //        option.append('<Option value="' + item.ClassID + '">' + item.ClassName + '</Option>').val();
+        //    //var classId = document.getElementById('ClassId').value;
+        //    var waitingId = document.getElementById('WaitingId').value;
+        //    var userId = document.getElementById('UserId').value;
+        //    $.ajax({
+        //        type: 'GET',
+        //        url: '/User/UserProg?waitingId='+waitingId+'&userId='+userId+'&classId='+classId,
+        //        success: function (response) {
+        //            if (response === '200') {
+        //                location.reload();
+
+        //            }
+        //        },
+        //    }).done(function (response) {
+
+        //    });
+             
+        //});
+
+        //$('#btnHaftaSonu').on('click', function () {
+
+        //    var classId = document.getElementById('ClassId').value;
+        //    var waitingId = document.getElementById('WaitingId').value;
+        //    var userId = document.getElementById('UserId').value;
+        //    $.ajax({
+        //        type: 'GET',
+        //        url: '/User/UserProg?waitingId='+waitingId+'&userId='+userId+'&classId='+classId,
+        //        success: function (response) {
+        //            if (response === '200') {
+        //                //window.location = "https://localhost:5001/Waiting/TumBas?TrainingId=" + trainingId + "&waitingId=" + waitingId;
+        //                location.reload();
+
+        //            }
+        //        },
+        //    }).done(function (response) {
+
+        //    });
+
+        //});
+
+    </script>
+
+
+</body>
+</html>

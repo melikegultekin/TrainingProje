@@ -1,0 +1,131 @@
+﻿@using Entities.Concrete
+@model List<Waiting>
+
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <br />
+        <br />
+        <h4><b>Reddedilen Eğitimler</b></h4>
+        <br />
+        <table id="tbl1" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th><b>Eğitimin İsmi</b></th>
+                    <th><b>Eğitimin başlangıç tarihi</b></th>
+                    <th><b>Eğitimin bitiş tarihi</b></th>
+                    <th><b>Son başvuru tarihi</b></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <!--Model içindeki her item için döngü dönecek ve değerleri tabloya yazılacak-->
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Training.TrainingName</td>
+                    <td>@item.Training.TrainingStartdate.ToString("dd.MM.yyyy")</td>
+                    <td>@item.Training.TrainingLastdate.ToString("dd.MM.yyyy")</td>
+                    <td>@item.Training.Trainingdate.ToString("dd.MM.yyyy")</td>
+                    <td><a href="/Training/Dersler?TrainingId=@item.TrainingId" style="border: none;" class="btn btn-outline-dark btn-sm"><b>Dersler</b></a></td>
+                    @*<td><a href="/Training/Basvur?TrainingId=@item.TrainingId" class="btn btn-primary">Nedeni</a></td>*@
+
+                    <td>
+                        <button type="button" class="btn btn-outline-dark btn-sm" style="border: none;" data-toggle="modal" data-target=@("#myModal" +item.WaitingId )><b>Nedeni</b></button>
+                        <!-- Modal -->
+                        <div class="modal fade" id=@($"myModal{item.WaitingId}") role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">@ViewBag.username</h4>
+                                        <label>Yetkilinin mesajı:</label>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @*<label>Yetkilinin mesajı:</label>*@
+                                        <p>@(item.MessageContext)</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        @*<label>Yetkilinin mesajı:</label>@ViewBag.username*@
+                                        <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">Kapat</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </td>
+                    @*<td><a href="/Waiting/Delete?WaitingId=@item.WaitingId" class="btn btn-danger">Sil</a></td>*@
+                </tr>
+
+            }
+        </table>
+    </div>
+
+    @*<script src="~/tooltip.js/tooltip.js"></script>*@
+    <br />
+
+    <br />
+    <script>
+        $(document).ready(function () {
+            $('#tbl1').DataTable({
+                pageLength: 15,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/tr.json'
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+
+@*@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Mesajınız!</strong>@TempData["AlertMessage"]
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+            <span>x</span>*@
+@*</button>
+    </div>
+}
+
+@if (TempData["Bilgi"] != null)
+{
+    <div class="alert alert-danger">
+        <strong>Uyarı!</strong> @TempData["Bilgi"]
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    </div>
+}*@

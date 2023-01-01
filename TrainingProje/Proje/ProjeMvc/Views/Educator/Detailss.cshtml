@@ -1,0 +1,108 @@
+﻿@model Entities.Concrete.Educator
+
+@{
+    ViewData["Title"] = "Detailss";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+
+
+<br />
+<head>
+    <title>Home - AuthTake @*:: w3layouts*@</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/web/css/style.css" type="text/css" media="all" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="~/web/css/slider.css" rel="stylesheet" type="text/css" media="all" />
+    <script src="~/web/js/jquery.min.js"></script>
+    <script src="~/web/js/responsiveslides.min.js"></script>
+
+    <script>
+        // You can also use "$(window).load(function() {"
+        $(function () {
+            // Slideshow 1
+            $("#slider1").responsiveSlides({
+                auto: true,
+                nav: true,
+                speed: 500,
+                namespace: "callbacks",
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <br />
+    <br />
+    <h3><b>EĞİTMENİN BİLGİLERİ</b></h3>
+
+    <br />
+
+
+    <div>
+        <br />
+        <br />
+        <br />
+        <br />
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.Label("Eğitmenin Tc kimlik numarası:")
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Tc)
+                </dd>
+                <br />
+                <dt class="col-sm-4">
+                    @Html.Label("Eğitmenin Kullanıcı Adı:")
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.EUserName)
+                </dd>
+                @*<br />
+                <dt class="col-sm-4">
+                    @Html.Label("Eğitmenin Unvanı:")
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.TitleName)
+                </dd>*@
+                <br />
+                <dt class="col-sm-4">
+                    @Html.Label("Eğitmenin Adı Soyadı:")
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.EducatorFullName)
+                </dd>
+                <br />
+                <dt class="col-sm-4">
+                    @Html.Label("Eğitmenin Email Adresi:")
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+            </dl>
+    
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <!--<form asp-action="Delete">
+            <input type="hidden" asp-for="EducatorId" />
+            <input type="submit" value="Sil" class="btn btn-danger" />-->
+            @*<a asp-action="Site/GetAll">Önceki Sayfa</a>*@
+        <!--</form>-->
+        <br />
+        <br />
+        <a href="/Educator/GetAll" class="btn btn-success">Geri Dön</a>
+    </div>
+</body>
+</html>
+
+
+

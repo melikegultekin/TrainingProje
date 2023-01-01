@@ -1,0 +1,101 @@
+﻿@using Entities.Concrete
+@model List<Educator>
+
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/twitter-bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div class="p-2 w-100 m-0">
+
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Ders Programı ekle
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ders Programı ekle</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" action="/ClassesDetail/Add/">
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+
+                                        <label class="form-control-label">Eğitimin Adı:</label>
+                                        <select id="TrainingId" name="TrainingId" class="form-select" asp-items="(List<SelectListItem>)ViewBag.Lessons">
+                                            <option value="0">Lütfen bir eğitim seçiniz!!</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+
+                                        <label class="form-control-label">Sınıfın Adı:</label>
+                                        <select id="ClassId" name="ClassId" class="form-select" asp-items="(List<SelectListItem>)ViewBag.Classes">
+                                            <option value="0">Lütfen bir sınıf seçiniz!!</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="form-control-label">Günleri:</label>
+                                        <select id="selectNameId" name="Name" class="form-select">
+                                            <option value="0">Lütfen bir eğitmen seçiniz!!</option>
+                                            <option value="1">Hafta İçi</option>
+                                            <option value="2">Hafta Sonu</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                @*<input type="hidden" name="NameId" value="@item.WaitingId" />*@
+                                <input type="hidden" name="NameId" value="selectNameId" />
+                                <input type="hidden" name="TrainingProgramId" value="" />
+
+                                <div class="row">
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                                    <button class="btn btn-info">Oluştur</button>
+                                    @*<button type="button" class="btn btn-primary">Oluştur</button>*@
+                                </div>
+                            </div>
+                        </form>
+
+
+                    </div>
+
+                </div>
+
+                @*<input type="submit" value="Programı Gör"
+                onclick="window.location='/User/Authorized';" />*@
+
+            </div>
+        </div>
+
+</body>
+</html>

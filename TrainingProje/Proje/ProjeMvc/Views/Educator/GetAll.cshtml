@@ -1,0 +1,108 @@
+﻿@using Entities.Concrete
+@model List<Educator>
+
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/twitter-bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        @*<h2>Hoşgeldiniz @ViewBag.username</h2>*@
+        <!-- Trigger the modal with a button -->
+        <br />
+        
+        @if (TempData["AlertMessage"] != null)
+        {
+            <div class="alert alert-success">
+                <strong>Mesajınız!</strong>@TempData["AlertMessage"]
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                    @*<span>x</span>*@
+                </button>
+            </div>
+        }
+        <div class="p-5 w-100 m-0">
+            <!--burada Add viewine yönlendirme yaptık-->
+            <a href="/Manager/Logout" class="btn btn-danger float-lg-right">Çıkış Yap</a>
+
+        </div>
+
+
+        <div class="p-2 w-100 m-0">
+            <!--burada Add viewine yönlendirme yaptık-->
+            <a href="/Manager/Educator" class="btn btn-primary">Eğitmen</a>
+            <a href="/User/GetAllU" class="btn btn-info">Öğrenci</a>
+            <a href="/Manager/GetAllT" class="btn btn-warning">Eğitim</a>
+            <a href="/TrainingProgram/GetAll" class="btn btn-success">Program</a>
+            <a href="/Exam/GetAll" class="btn btn-primary">Sınav</a>
+            <a href="/Certificate/GetAll" class="btn btn-info">Sertifika</a>
+
+
+            @*<a href="/Training/Add" class="btn btn-warning">Eğitim Ekle</a>>*@
+        </div>
+
+        <br />
+
+
+        <br />
+        <br />
+        @*<a href="/Class/GetAllP" class="btn btn-success">Ders Programını Gör</a>*@
+        @*<a href="/TrainingProgram/GetAll" class="btn btn-success">Eğitim Programı Gör</a>*@
+
+
+        <a href="/User/YGetAll" class="btn btn-success float-lg-right">Yetkilileri Gör</a>
+        <br /><br />
+        <h4><b>Eğitmenler</b></h4>
+
+
+        <table class="table table-bordered">
+            <tr>
+
+                <th><b>Eğitmenin Unvanı</b></th>
+                <th><b>Eğitmenin Kullanıcı Adı</b></th>
+                <th><b>Eğitmenin Adı Soyadı</b></th>
+            </tr>
+            <!--Model içindeki her item için döngü dönecek ve değerleri tabloya yazılacak-->
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>@item.Title.TitleName</td>
+                    <td>@item.EUserName</td>
+                    <td>@item.EducatorFullName</td>
+
+                    <td><a href="/Educator/Delete?EducatorId=@item.EducatorId" class="btn btn-danger">Sil</a></td>
+                    <td><a href="/Educator/Update?EducatorId=@item.EducatorId" class="btn btn-primary">Güncelle</a></td>
+                    <td><a href="/Educator/Detailss?EducatorId=@item.EducatorId" class="btn btn-success">Bilgilerini Gör</a></td>
+
+                    @*<td><a href="/Waiting/TumBas?TrainingId=@item.TrainingId" class="btn btn-warning">Başvuranlar</a></td>
+                    <td><a href="/Waiting/AlanK?TrainingId=@item.TrainingId" class="btn btn-success">Eğitimi alan kullanıcılar</a></td>*@
+
+                </tr>
+
+            }
+        </table>
+    </div>
+
+        <br />
+
+
+        <br />
+    </div>
+</body>
+</html>

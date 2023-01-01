@@ -1,0 +1,60 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home - Eğitim @*:: w3layouts*@</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="~/web/css/style.css" type="text/css" media="all" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="~/web/css/slider.css" rel="stylesheet" type="text/css" media="all" />
+    <script src="~/twitter-bootstrap/js/bootstrap.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="~/web/js/jquery.min.js"></script>
+    <script src="~/web/js/responsiveslides.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    @RenderSection("Styles", false)
+    <script>
+        // You can also use "$(window).load(function() {"
+        $(function () {
+            // Slideshow 1
+            $("#slider1").responsiveSlides({
+                auto: true,
+                nav: true,
+                speed: 500,
+                namespace: "callbacks",
+            });
+        });
+    </script>
+
+</head>
+<body>
+    <div class="header-bottom">
+        <div class="wrap">
+            <ul id="nav">
+                <li>
+                    <a class="hsubs" href="/User/Logout/">Giriş Sayfası</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <div class"content">
+        @RenderBody()
+    </div>
+    <div class="footer-bottom">
+        <div class="wrap">
+            <div class="copy">
+                <p>&copy; @DateTime.Now.Year </p>
+            </div>
+
+        </div>
+    </div>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

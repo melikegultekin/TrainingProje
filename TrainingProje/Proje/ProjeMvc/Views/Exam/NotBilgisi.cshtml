@@ -1,0 +1,269 @@
+﻿@using Entities.Concrete
+@model List<Exam>
+
+@{
+    ViewData["Title"] = "GetAllT";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <title>AdminLTE 3 | Dashboard 3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        @*<h2>Hoşgeldiniz @ViewBag.username</h2>*@
+        <!-- Trigger the modal with a button -->
+        <br />
+        <br />
+        <br />
+        <!--</div>-->
+        <br />
+
+        <h3><b>Öğrenci Not Listesi</b></h3>
+        <table id="tbl1" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="font-size:11px;"><b>Öğrencinin Adı</b></th>
+                    <th style="font-size:11px;"><b>Öğrencinin Soyadı</b></th>
+                    <th></th>
+                    <th style="font-size:11px;"><b>Öğrencinin Notu</b></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <!--Model içindeki her item için döngü dönecek ve değerleri tabloya yazılacak-->
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.User.FirstName</td>
+                    <td>@item.User.LastName</td>
+                    @*<td><input type="text" name="ExamNot" class="form-control" size="3px" /></td>*@
+
+                    <td>
+                        <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target=@("#myModal" +item.ExamId )>EKLE</button>
+
+                        <div class="modal fade" id=@($"myModal{item.ExamId}") role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content col-md-5">
+                                    <div class="modal-header">
+                                        @*<h4 class="modal-title"> Reddetmenin nedeni:</h4>*@
+                                        <label>Öğrencinin Eğitim Notu:</label>
+                                        <button type="button" class="close float-lg-right" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @*<input type="text" id="@item.ExamNot" name="ExamNot" class="form-control" />*@   @*autocomplete = "off"*@
+
+                                        <input type="text" id="@item.ExamId" name="ExamNot" style="width:100px;height:35px;" value="" class="form-control col-md-4" autocomplete="off"/>
+                                        <br />
+                                        <input hidden id="TrainingId" value="@item.TrainingId" />
+                                        <input type="hidden" name="ExamId" value="@item.ExamId" />
+                                        
+                                        @*<a href="/Message/Gonder?UserName=@item.UserName" class="btn btn-success">Gönder</a>*@
+                                        @*<input type="submit" value="Gonder" onclick="window.location='/Message/Gonder';" />*@
+                                    </div>
+                                    <div class="modal-footer float-lg-left">
+                                        <button id="btnNot5" class="btn btn-outline-info btn-sm" value="@item.TrainingId" onclick="OgrenciNotEkle('@item.UserId', '@item.TrainingId', '@item.ExamId')">Notu Ekle</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>@item.ExamNot</td>
+                    <td>
+                        <button type="button" class="btn btn-outline-dark btn-sm" data-toggle="modal" data-target=@("#myModal" +item.UserId )>Güncelle</button>
+
+                        <div class="modal fade" id=@($"myModal{item.UserId}") role="dialog">
+                            <div class="modal-dialog">
+                                    <div class="modal-content col-md-5">
+                                        <div class="modal-header">
+                                            @*<h4 class="modal-title"> Reddetmenin nedeni:</h4>*@
+
+                                            <label>Öğrencinin Eğitim Notu:</label>
+                                            <button type="button" class="close float-lg-right" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body ">
+
+                                            <input type="text" id="@item.UserId" value="@item.ExamNot" style="width:100px;height:35px;" class="form-control col-md-4" /> @*autocomplete = "off"*@
+                                            <br />
+                                            <input hidden id="TrainingId" value="@item.TrainingId" />
+                                            <input type="hidden" name="ExamId" value="@item.ExamId" />
+
+
+                                            <input hidden id="ExamNot" />
+                                        </div>
+                                        <div class="modal-footer float-lg-left">
+                                            <button id="btnDuzelt6" class="btn btn-outline-dark btn-sm" value="@item.UserId" onclick="OgrenciNotDuzelt('@item.UserId', '@item.TrainingId' , '@item.ExamId')">Notu Düzelt</button>
+                                            
+                                        </div>
+
+                                    </div>
+                             </div>
+                        </div>
+                    </td>
+
+                </tr>
+
+            }
+
+        </table>
+    </div>
+
+    <br />
+
+    <br />
+    <script>
+        $(document).ready(function () {
+            $('#tbl1').DataTable({
+                pageLength: 15,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/tr.json'
+                }
+            });
+        });
+
+        function OgrenciNotEkle(userId, trainingId,examId) {
+
+            var examNot = $("#" + examId).val();
+            //var examNot = document.getElementById('#ExamNot').val();
+            //var examNot = $('#ExamNot').val();
+           
+            
+            
+            //var examNot = document.getElementById('ExamNot').value;
+            $.ajax({
+                type: 'GET',
+                url: '/Exam/Kaydet?trainingId='+trainingId + '&userId=' + userId + '&examId=' + examId + '&examNot=' + examNot,
+                success: function (response) {
+                    if (response === '50') {
+                        swal({
+                            title: "Uyarı!",
+                            text: "Seçilen öğrenci bir eğitim notuna sahip! Notu değiştirmek istiyorsanız 'GÜNCELLE' butanuna tıklayınız!",
+                            icon: "warning",
+                            //timer: 3000
+                        });
+                        //location.reload();
+                    }
+                    if (response === '200') {
+                        swal({
+                            title: "Başarılı!",
+                            text: "Not eklediniz!",
+                            icon: "success",
+                            timer: 3000
+                        }).then(() => {
+                            location.reload();
+
+                        });
+                    }
+                },
+            }).done(function (response) {
+
+            });
+        }
+
+        function OgrenciNotDuzelt(userId, trainingId, examId) {
+            var examNot = $("#" + userId).val();
+            /*var examNot = document.getElementById('ExamNot').value;*/
+            $.ajax({
+                type: 'GET',
+                url: '/Exam/KaydetU?trainingId='+trainingId+'&userId='+userId+'&examId='+examId+'&examNot='+examNot,
+                success: function (response) {
+                    if (response === '1') {
+                        swal({
+                            title: "Başarılı!",
+                            text: "Öğrenci bir nota sahip değil! Güncelleme yapılamaz!",
+                            icon: "success",
+                            //timer: 3000
+                        }).then(() => {
+                            location.reload();
+
+                        });
+
+                    }
+                    if (response === '200') {
+                        swal({
+                            title: "Başarılı!",
+                            text: "Notu Düzeltme başarılı!",
+                            icon: "success",
+                            //timer: 3000
+                        }).then(() => {
+                            location.reload();
+
+                        });
+
+                    }
+                },
+            }).done(function (response) {
+
+            });
+        }
+
+        //$('#btnNot').on('click', function () {
+
+        //    var trainingId = document.getElementById('TrainingId').value;
+        //    var userId = document.getElementById('UserId').value;
+        //    var examId = document.getElementById('ExamId').value;
+        //    var examNot = document.getElementById('ExamNotG').value;
+
+        //    $.ajax({
+        //        type: 'GET',
+        //        url: '/Exam/Kaydet?trainingId='+trainingId+'&userId='+userId+'&examId='+examId+'&examNot='+examNot,
+        //        success: function (response) {
+        //            if (response === '200') {
+        //                location.reload();
+
+        //            }
+        //        },
+        //    }).done(function (response) {
+
+        //    });
+
+        //});
+
+        //$('#btnDuzelt').on('click', function () {
+
+        //    var trainingId = document.getElementById('TrainingId').value;
+        //    var userId = document.getElementById('UserId').value;
+        //    var examId = document.getElementById('ExamId').value;
+        //    var examNot = document.getElementById('ExamNotG').value;
+
+        //    $.ajax({
+        //        type: 'GET',
+        //        url: '/Exam/Duzelt?trainingId='+trainingId+'&userId='+userId+'&examId=' + examId+'&examNot='+examNot,
+        //        success: function (response) {
+        //            if (response === '200') {
+        //                location.reload();
+
+        //            }
+        //        },
+        //    }).done(function (response) {
+
+        //    });
+
+        //});
+    </script>
+</body>
+</html>
+
+

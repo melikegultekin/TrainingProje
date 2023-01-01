@@ -1,0 +1,149 @@
+﻿@model Entities.Concrete.Educator
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+
+
+<br />
+<head>
+    <title>Home - AuthTake @*:: w3layouts*@</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/web/css/style.css" type="text/css" media="all" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="~/web/css/slider.css" rel="stylesheet" type="text/css" media="all" />
+    <script src="~/web/js/jquery.min.js"></script>
+    <script src="~/web/js/responsiveslides.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script>
+        // You can also use "$(window).load(function() {"
+        $(function () {
+            // Slideshow 1
+            $("#slider1").responsiveSlides({
+                auto: true,
+                nav: true,
+                speed: 500,
+                namespace: "callbacks",
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <h3>Eğitmeni silmek istediğinize emin misiniz?</h3>
+
+    <br />
+
+
+    <div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.Label("Eğitmenin Kullanıcı Adı:")
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.EUserName)
+            </dd>
+            @*<dt class="col-sm-2">
+                @Html.Label("Eğitmenin Unvanı:")
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.TitleName)
+            </dd>*@
+            <dt class="col-sm-2">
+                @Html.Label("Eğitmenin Adı Soyadı:")
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.EducatorFullName)
+            </dd>
+        </dl>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <td>
+            <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#myModal">SİL</button>
+
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Etkilenen Eğitimler var. Eğitmeni silmek istediğinizden emin misiniz??</p>
+                        </div>
+                        <div class="modal-footer">
+                            <form asp-action="Delete">
+                                <input type="hidden" asp-for="EducatorId" />
+                                <input type="submit" value="Sil" class="btn btn-danger" />
+                            </form>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </td>
+            <br />
+            <br />
+            <a href="/Educator/GetAll" class="btn btn-success">Geri Dön</a>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<!--<button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target=("#myModal")>Sil</button>
+    <!-- Modal -->
+<!--<div class="modal fade" id=($"myModal") role="dialog">
+<div class="modal-dialog">-->
+<!-- Modal content-->
+<!--<div class="modal-content">
+<div class="modal-header">
+    <h4 class="modal-title">ViewBag.username</h4>
+    <label>Yetkilinin mesajı:</label>
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+<div class="modal-body">-->
+@*<label>Yetkilinin mesajı:</label>*@
+@*<p>Etkilenen öğeler var. Lütfen kontrol ederek işlemi gerçekleştiriniz!!  </p>
+                </div>
+                <div class="modal-footer">
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="EducatorId" />
+                        <input type="submit" value="Sil" class="btn btn-danger" />
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>*@
+        
+<!--<form asp-action="Delete">
+<input type="hidden" asp-for="EducatorId" />
+<input type="submit" value="Sil" class="btn btn-danger" />-->
+@*<a asp-action="Site/GetAll">Önceki Sayfa</a>*@
+<!--</form>-->

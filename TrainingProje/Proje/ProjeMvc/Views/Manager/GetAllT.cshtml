@@ -1,0 +1,164 @@
+﻿@using Entities.Concrete
+@model List<Training>
+
+@{
+    ViewData["Title"] = "GetAllT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        @*<h2>Hoşgeldiniz @ViewBag.username</h2>*@
+        <!-- Trigger the modal with a button -->
+        <br />
+
+        @if (TempData["AlertMessage"] != null)
+        {
+            <div class="alert alert-success">
+                <strong>Mesajınız!</strong>@TempData["AlertMessage"]
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                    @*<span>x</span>*@
+                </button>
+            </div>
+        }
+
+    <div class="p-5 w-100 m-0">
+        <!--burada Add viewine yönlendirme yaptık-->
+        @*<a href="/Training/Add" class="btn btn-success">Eğitim Ekle</a>*@
+        <a href="/Educator/GetAll" class="btn btn-success">Geri Dön</a>
+
+        <a href="/Manager/Logout" class="btn btn-danger float-lg-right">Çıkış Yap</a>
+        <br />
+        <br />
+        <br />
+        <a href="/Training/Add" class="btn btn-success">Eğitim Ekle</a>
+        @*<a href="/Exam/Add" class="btn btn-success">Sınav Ekle</a>*@
+    </div>
+    <br />
+        <br />
+        <!--<div class="p-2 w-50 m-2">-->
+        @*<a href="/Manager/Educator" class="btn btn-success">Programı Gör</a>
+        <input type="submit" value="Programı Gör"
+               onclick="window.location='/Manager/Educator';" />*@
+
+        <!--</div>-->
+        <br />
+        @* <br />
+        <div class="p-2 w-50 m-2">
+             <input type="submit" value="Yeni Eğitimci Ekle"
+                    onclick="window.location='/Educator/RegisterE';" />
+             <input type="submit" value="Yeni Yetkili Ekle"
+                    onclick="window.location='/User/RegisterM';" />
+         </div>
+        <br />*@
+        <h3><b>Eğitimler</b></h3>
+        <table class="table table-bordered">
+            <tr>
+                <th><b>Eğitimin Adı</b></th>
+                <th><b>Eğitim başlangıç tarihi</b></th>
+                <th><b>Eğitim son tarihi</b></th>
+                <th><b>Son başvuru tarihi</b></th>
+                <th><b>Eğitimin kontenjan sayısı</b></th>
+                <th><b>Toplam Eğitim saati</b></th>
+            </tr>
+            <!--Model içindeki her item için döngü dönecek ve değerleri tabloya yazılacak-->
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.TrainingName</td>
+                    <td>@item.TrainingStartdate.ToString("dd.MM.yyyy")</td>
+                    <td>@item.TrainingLastdate.ToString("dd.MM.yyyy")</td>
+                    <td>@item.Trainingdate.ToString("dd.MM.yyyy")</td>
+                    @*<td>@item.Trainingdate</td>*@
+                    <td>@item.kota</td>
+                    <td>@item.TotalHours</td>
+
+                    <td><a href="/Lesson/Add?TrainingId=@item.TrainingId" class="btn btn-success">Ders Ekle</a></td>
+                    <td><a href="/Lesson/GetAll?TrainingId=@item.TrainingId" class="btn btn-info">Dersleri Gör</a></td>
+                    <td><a href="/Training/Delete?TrainingId=@item.TrainingId" class="btn btn-danger">Sil</a></td>
+                    <td><a href="/Training/Update?TrainingId=@item.TrainingId" class="btn btn-primary">Güncelle</a></td>
+                    <td><a href="/Waiting/TumBas?TrainingId=@item.TrainingId" class="btn btn-warning">Başvuranlar</a></td>
+                    <td><a href="/Waiting/AlanK?TrainingId=@item.TrainingId" class="btn btn-success">Eğitimi alan öğrenciler</a></td>
+                    </tr>
+    @*<td><a href="/TrainingProgram/Show?TrainingProgramId=@item.TrainingProgramId" class="btn btn-success">Programı göster</a></td>*@
+                    <!--<td>
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target=("#myModal" +item.TrainingId )>Başvur</button>-->
+                    <!-- Modal -->
+                    <!--<div class="modal fade" id=($"myModal{item.TrainingId}") role="dialog">
+            <div class="modal-dialog">-->
+                    <!-- Modal content-->
+                    <!--<div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title"> ViewBag.username</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+            </td>-->
+                @*</tr>
+                <td>
+                    <li class="nav-item">
+                        <a href="/Lesson/Add?TrainingId=@item.TrainingId" class="nav-link">
+                            <i class="nav-icon far fa-plus-square text-success"></i>
+                        </a>
+                    </li>
+                </td>
+
+                <td>
+                    <li class="nav-item">
+                        <a href="/Lesson/GetAll?TrainingId=@item.TrainingId" class="nav-link">
+                            <i class="nav-icon far fa-eye text-info"></i>
+                        </a>
+                    </li>
+                </td>
+
+                <td>
+                    <li class="nav-item">
+                        <a href="/Training/Delete?TrainingId=@item.TrainingId" class="nav-link">
+                            <i class="nav-icon far fa-trash text-danger"></i>
+                        </a>
+                    </li>
+                </td>
+
+                <td>
+                    <li class="nav-item">
+                        <a href="/Training/Update?TrainingId=@item.TrainingId" class="nav-link">
+                            <i class="nav-icon far fa-eye text-info"></i>
+                        </a>
+                    </li>
+                </td>*@
+            }
+        </table>
+    </div>
+
+    @*<script src="~/tooltip.js/tooltip.js"></script>*@
+    <br />
+    <!--<div>
+        <div class="p-5 w-50 m-0">
+            <!--burada Add viewine yönlendirme yaptık-->
+   
+    <!--@*<a href="/User/Logout" class="btn btn-success">ANA SAYFA</a>*@
+        </div>
+    </div>-->
+
+    <br />
+
+</body>
+</html>

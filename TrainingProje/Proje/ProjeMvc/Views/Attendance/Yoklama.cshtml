@@ -1,0 +1,137 @@
+﻿@using Entities.Concrete
+@model List<User>
+
+@{
+    ViewData["Title"] = "Yoklama";
+    Layout = "~/Views/Shared/_EducatorLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container">
+        
+        <br />
+
+        
+
+        
+        <input hidden id="TrainingProgramDetailId" value="@ViewBag.TrainingProgramDetail" />
+
+        @*<input hidden id="TrainingProgramDetailId" name="TrainingProgramDetailId" value="@ViewBag.TrainingProgramDetail1" />*@
+        <h5><b>YOKLAMA</b></h5>
+        <form>
+            <table class="table table-bordered">
+                <tr>
+                    @*<th><b>Eğitmenin Unvanı</b></th>*@
+                    <th><b>Öğrencinin Adı</b></th>
+                    <th><b>Öğrencinin Soyadı</b></th>
+                    @*<th><b>Yoklama Durumu</b></th>*@
+
+                </tr>
+
+                <!--Model içindeki her item için döngü dönecek ve değerleri tabloya yazılacak-->
+                @foreach (var item in Model)
+                {
+            <tr>
+                @*<td>@item.TitleName</td>*@
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+
+
+                <td><button id="btnEvet" type="button" class="btn btn-outline-primary" title="ÖĞRENCİ SINIFTA" value="@ViewBag.TrainingProgramDetail&@item.UserId">+</button></td>
+                @*<td><button id="btnEvet" onClick="tiklamaFonksiyonu()">Buton</a></td>*@
+                <td><button id="btnHayır" type="button" class="btn btn-outline-danger" title="ÖĞRENCİ SINIFTA DEĞİL" value="@ViewBag.TrainingProgramDetail&@item.UserId">-</button></td>
+                @*<td><a href="/Attendance/AddE?UserId=@item.UserId&TrainingProgramDetailId=@ViewBag.TrainingProgramDetail" id="tikla" class="btn btn-info btn-lg active" role="button">+</a></td>*@
+                @*<td><a href="/Attendance/AddH?UserId=@item.UserId&TrainingProgramDetailId=@ViewBag.TrainingProgramDetail" id="tikla1" class="btn btn-danger btn-lg active" role="button">-</a></td>*@
+                <input hidden id="UserId" value="@item.UserId" />
+
+            </tr>
+
+                }
+
+                @*<input type="hidden" name="TrainingProgramDetailId" value="TrainingProgramDetailId" />*@
+            </table>
+        </form>
+    </div>
+
+    
+    <br />
+
+    @*<a href="http://www.google.com/" class="btn btn-danger btn-lg active" role="button">Google</a>
+
+        <a href="http://www.google.com" class="btn btn-default active" role="button">Google</a>*@
+    <br />
+
+    <script>
+
+        $('#btnEvet').on('click',function () {
+        
+            var trainingProgramDetailId = document.getElementById('TrainingProgramDetailId').value;
+            var userId = document.getElementById('UserId').value;
+            $.ajax({
+                type: 'GET',
+                url: '/Attendance/AddE?trainingProgramDetailId=' + trainingProgramDetailId+'&userId=' +userId,
+                success: function (response) {
+                    
+                    if (response === '200') {
+                        location.reload();
+
+                    }
+                },
+            }).done(function (response) {
+               
+            });
+      
+        });
+
+        $('#btnHayır').on('click', function () {
+
+            var trainingProgramDetailId = document.getElementById('TrainingProgramDetailId').value;
+            var userId = document.getElementById('UserId').value;
+            $.ajax({
+                type: 'GET',
+                url: '/Attendance/AddH?trainingProgramDetailId=' + trainingProgramDetailId+'&userId=' +userId,
+                success: function (response) {
+                    if (response === '200') {
+                        location.reload();
+
+                    }
+                },
+            }).done(function (response) {
+
+            });
+
+        });
+    </script>
+
+
+
+
+</body>
+</html>
+
+

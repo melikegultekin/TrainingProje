@@ -1,0 +1,87 @@
+﻿@using Entities.Concrete
+@model List<Exam>
+
+@{
+    ViewData["Title"] = "GetAllT";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AdminLTE 3 | Dashboard 3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<div class="p-5 w-100 m-0">
+    <br />
+    <br />
+    <br />
+    <a href="/Training/Add" class="btn btn-success float-lg-right">Eğitim Ekle</a>
+</div>
+<br />
+<br />
+<br />
+<h3><b>Eğitimler</b></h3>
+<table class="table table-bordered">
+    <tr>
+        <th style="font-size:11px;"><b>Eğitimin Adı</b></th>
+        <th style="font-size:11px;"><b>Eğitim başlangıç tarihi</b></th>
+        <th style="font-size:11px;"><b>Eğitim son tarihi</b></th>
+        <th style="font-size:11px;"><b>Son başvuru tarihi</b></th>
+        <th style="font-size:11px;"><b>Eğitimin kontenjan sayısı</b></th>
+        <th style="font-size:11px;"><b>Toplam Eğitim saati</b></th>
+    </tr>
+    <!--Model içindeki her item için döngü dönecek ve değerleri tabloya yazılacak-->
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <li class="nav-item">
+                    <a href="/Lesson/Add?TrainingId=@item.TrainingId" class="nav-link">
+                        <i class="nav-icon far fa-plus-square text-success"></i>
+                    </a>
+                </li>
+            </td>
+
+            <td>
+                <li class="nav-item">
+                    <a href="/Lesson/GetAll?TrainingId=@item.TrainingId" class="nav-link">
+                        <i class="nav-icon far fa-eye text-info"></i>
+                    </a>
+                </li>
+            </td>
+
+            <td>
+                <li class="nav-item">
+                    <a href="/Training/Delete?TrainingId=@item.TrainingId" class="nav-link">
+                        <i class="nav-icon far fa-trash-alt text-danger"></i>
+                    </a>
+                </li>
+            </td>
+
+            <td>
+                <li class="nav-item">
+                    <a href="/Training/Update?TrainingId=@item.TrainingId" class="nav-link">
+                        <i class="nav-icon far fa- text-primary"></i>
+                    </a>
+                </li>
+            </td>
+        </tr>
+    }
+</table>
+    </div>
+<br />
+
+<br />
+
+</html>

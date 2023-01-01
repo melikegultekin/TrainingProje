@@ -1,0 +1,109 @@
+﻿@model Entities.Concrete.Educator
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="~/css/all.min.css" />*@
+
+    <title>AdminLTE 3 | Dashboard 3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+
+                <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                        <div class="text-center">
+                            <img class="profile-user-img img-fluid img-circle" src="~/AdminLTE-3.0.4/dist/img/user4-128x128.jpg" alt="User profile picture">
+                        </div>
+                        <h3 class="profile-username text-center">@Model.EducatorFullName</h3>
+                        <p class="text-muted text-center">@ViewBag.TitleName</p>
+                        <br />
+                        <a href="/Manager/EProgram?EducatorId=@Model.EducatorId" class="btn btn-primary btn-block"><b>Programı Gör</b></a>
+                    </div>
+
+                </div>
+
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Eğitmen Bilgileri</h3>
+                    </div>
+
+                    <div class="card-body">
+                        @*<strong><i class="fas fa-book mr-1"></i>Tc kimliği</strong>
+        <p class="text-muted">
+            B.S. in Computer Science from the University of Tennessee at Knoxville
+        </p>
+        <hr>
+        <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
+        <p class="text-muted">Malibu, California</p>
+        <hr>
+        <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
+        <p class="text-muted">
+            <span class="tag tag-danger">UI Design</span>
+            <span class="tag tag-success">Coding</span>
+            <span class="tag tag-info">Javascript</span>
+            <span class="tag tag-warning">PHP</span>
+            <span class="tag tag-primary">Node.js</span>
+        </p>
+        <hr>
+        <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>*@
+                        <strong><i class="fas fa-book mr-1"></i>Tc kimliği</strong>
+                        <p class="text-muted">
+                            @Model.Tc
+                        </p>
+                        <hr>
+                        <strong><i class="fas fa-book mr-1"></i>Eğitmen Kullanıcı Adı</strong>
+                        <p class="text-muted">
+                            @Model.EUserName
+                        </p>
+                        <hr>
+                        <strong><i class="fas fa-book mr-1"></i>Eğitmen Adı Soyadı</strong>
+                        <p class="text-muted">
+                            @Model.EducatorFullName
+                        </p>
+                        <hr>
+                        <strong><i class="fas fa-book mr-1"></i>Email Adresi</strong>
+                        <p class="text-muted">
+                            @Model.Email
+                        </p>
+                        <hr>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Düzenle</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+</html>

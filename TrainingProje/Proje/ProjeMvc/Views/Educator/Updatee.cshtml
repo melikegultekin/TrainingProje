@@ -1,0 +1,69 @@
+﻿@model Entities.Concrete.Educator
+
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<script src="~/js/site.js"></script>
+<h1>Eğitmeni Güncelle</h1>
+<br />
+
+<div class="content" style="width: 400px; margin-left: 35%; margin-bottom: 10%; margin-top:5%">
+    @if (TempData["AlertMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            <strong>Mesajınız!</strong>@TempData["AlertMessage"]
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+                @*<span>x</span>*@
+            </button>
+        </div>
+    }
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header"><h5 class="title">Güncelle</h5></div>
+            <div class="card-body">
+                @using (Html.BeginForm("Update", "Educator", FormMethod.Post))
+                {
+                <div class="form-group">
+                    @Html.Label("Eğitmenin Kullanıcı Adı:")<br />
+                    @Html.TextBoxFor(x => x.EUserName, new { autocomplete = "off" })<br />
+                    @Html.ValidationMessageFor(x => x.EUserName, "", new { @class = "text-danger" })
+                    <br /><br />
+                    @Html.Label("Eğitmenin Tc kimlik numarası:")
+                    @Html.TextBoxFor(x => x.Tc, new { autocomplete = "off" })<br />
+                    @Html.ValidationMessageFor(x => x.Tc, "", new { @class = "text-danger" })
+                    <br /><br />
+                    @Html.Label("Eğitmenin Adı Soyadı:")
+                    @Html.TextBoxFor(x => x.EducatorFullName, new { autocomplete = "off" })<br />
+                    @Html.ValidationMessageFor(x => x.EducatorFullName, "", new { @class = "text-danger" })
+                    <br /><br />
+                    @Html.Label("Eğitmenin email adresi:")
+                    @Html.TextBoxFor(x => x.Email, new { autocomplete = "off" })<br />
+                    @*<input type="hidden" name="TrainingId" value="@Model.TrainingId" />*@
+                    @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+                    <br /><br />
+                    
+                    <br /><br />
+                    <input type="hidden" name="EducatorId" value="@Model.EducatorId" />
+                    <button>Ekle</button>
+
+                </div>
+                    @*<script type="text/javascript">
+                            $(function () {
+                                $('#datetimepicker1').datetimepicker();
+                            });
+                        </script>*@
+                }
+                <a href="/Educator/GetAll" class="btn btn-success">Geri Dön</a>
+            </div>
+            @*<script type="text/javascript">
+                    $(function () {
+                        $('#datetimepicker1').datetimepicker();
+                    });
+                </script>*@
+
+        </div>
+    </div>
+</div>

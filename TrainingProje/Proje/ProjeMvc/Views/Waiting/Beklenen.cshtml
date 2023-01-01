@@ -1,0 +1,91 @@
+﻿@using Entities.Concrete
+@model List<Waiting>
+
+@{
+    ViewData["Title"] = "Beklenen";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <br />
+        <br />
+        <h4><b>Beklenen Eğitimler</b></h4>
+        <table id="tbl1" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th><b>Eğitimin İsmi</b></th>
+                    <th><b>Eğitimin başlangıç tarihi</b></th>
+                    <th><b>Eğitimin bitiş tarihi</b></th>
+                    <th><b>Son başvuru tarihi</b></th>
+                    <th><b>Toplam saat</b></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <!--Model içindeki her item için döngü dönecek ve değerleri tabloya yazılacak-->
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Training.TrainingName</td>
+                    <td>@item.Training.TrainingStartdate.ToString("dd.MM.yyyy")</td>
+                    <td>@item.Training.TrainingLastdate.ToString("dd.MM.yyyy")</td>
+                    <td>@item.Training.Trainingdate.ToString("dd.MM.yyyy")</td>
+                    <td>@item.Training.TotalHours</td>
+
+
+                    <td><a href="/Training/Dersler?TrainingId=@item.TrainingId" style="border: none;" class="btn btn-outline-dark btn-sm"><b>Dersler</b></a></td>
+
+
+                </tr>
+
+            }
+        </table>
+    </div>
+
+    @*<script src="~/tooltip.js/tooltip.js"></script>*@
+    <br />
+    <!--<div>
+        <div class="p-5 w-50 m-0">-->
+    <!--burada Add viewine yönlendirme yaptık-->
+    <!--<a href="/User/Logout" class="btn btn-success">ANA SAYFA</a>
+        </div>
+    </div>-->
+
+    <br />
+    <script>
+        $(document).ready(function () {
+            $('#tbl1').DataTable({
+                pageLength: 15,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/tr.json'
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

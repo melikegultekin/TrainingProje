@@ -1,0 +1,54 @@
+﻿@model Entities.DTOs.CertificateDetailDto
+@*@using Entities.DTOs
+
+    @model Tuple<SiteDetailDto,SiteAddDetailDto>*@
+
+@{
+    ViewData["Title"] = "Ders Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<script src="~/js/site.js"></script>
+<link href="~/jquery-ui-1.11.4/jquery-ui.min.bootstrap.css" rel="stylesheet" />
+<h1>Ders Ekle</h1>
+<br />
+<div class="content" style="width: 400px; margin-left: 35%; margin-bottom: 10%; margin-top:5%">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header"><h5 class="title">Sertifika Ekle</h5></div>
+            <div class="card-body">
+                @using (Html.BeginForm("Add", "Certificate", FormMethod.Post))
+                {
+                <div class="form-group">
+                    @Html.Label("Unvan:")<br />
+                    @Html.DropDownListFor(x => x.TitleName, (List<SelectListItem>)ViewBag.Titles, "Seçiniz", new { @class = "form-control" })<br />
+                    @Html.ValidationMessageFor(x => x.TitleName, "", new { @class = "text-danger" })
+                    <br />
+                    @Html.Label("Eğitimci Adı Soyadı:")<br />
+                    @Html.DropDownListFor(x => x.EducatorFullName, (List<SelectListItem>)ViewBag.Educators, "Seçiniz", new { @class = "form-control" })<br />
+                    @Html.ValidationMessageFor(x => x.EducatorFullName, "", new { @class = "text-danger" })
+                    <br />
+                    @Html.Label("Eğitimin İsmi:")<br />
+                    @Html.DropDownListFor(x => x.TrainingName, (List<SelectListItem>)ViewBag.Trainings, "Seçiniz", new { @class = "form-control" })<br />
+                    @Html.ValidationMessageFor(x => x.TrainingName, "", new { @class = "text-danger" })
+
+                    <br /><br />
+                    @*<input type="submit" value="Ekle"
+        onclick="window.location='/Site/GetAll';" />*@
+                    <button>Ekle</button>
+                    @*<div class="p-2 w-100 m-0">
+            <a href="/Class/Add" class="btn btn-success">Ekle</a>
+        </div>*@
+                </div>
+
+                }
+
+            </div>
+            @*<a href="/Educator/GetAll" class="btn btn-success">Geri Dön</a>*@
+        </div>
+    </div>
+</div>
+
+
+

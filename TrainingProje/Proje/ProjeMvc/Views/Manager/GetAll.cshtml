@@ -1,0 +1,104 @@
+﻿@using Entities.Concrete
+@model List<Class>
+
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_EducatorLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        
+        <br /><br />
+        <h4><b>Ana Sayfa</b></h4>
+        <table id="tbl1" class="table table-bordered">
+            <thead>
+                <tr>
+                    @*<th><b>Eğitmenin Adı Soyadı</b></th>*@
+                    <th style="font-size:11px;"><b>Eğitim Sınıfı</b></th>
+                    <th style="font-size:11px;"><b>Eğitim Adı</b></th>
+                    <th style="font-size:11px;"><b>Eğitim başlangıç tarihi</b></th>
+                    <th style="font-size:11px;"><b>Eğitim son tarihi</b></th>
+                    <th style="font-size:11px;"><b>Son başvuru tarihi</b></th>
+                    <th style="font-size:11px;"><b>Eğitimin kontenjan sayısı</b></th>
+                    <th style="font-size:11px;"><b>Toplam Eğitim saati</b></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <!--Model içindeki her item için döngü dönecek ve değerleri tabloya yazılacak-->
+            @foreach (var item in Model)
+            {
+                <tr>
+                    
+                    <td style="font-size:11px;"><br />@item.ClassName</td>
+                    <td style="font-size:11px;"><br />@item.Training.TrainingName</td>
+                    <td style="font-size:11px;"><br />@item.Training.TrainingStartdate.ToString("dd.MM.yyyy")</td>
+                    <td style="font-size:11px;"><br />@item.Training.TrainingLastdate.ToString("dd.MM.yyyy")</td>
+                    @*<td>@item.Trainingstartdate</td>
+                    <td>@item.Traininglastdate</td>*@
+                    <td style="font-size:11px;"><br />@item.Training.Trainingdate.ToString("dd.MM.yyyy")</td>
+                    @*<td>@item.Trainingdate</td>*@
+                    <td style="font-size:11px;"><br />@item.Training.kota</td>
+                    <td style="font-size:11px;"><br />@item.Training.TotalHours</td>
+
+                    <td>
+                        <div class="p-2 w-100 m-0">
+                            <a href="/Class/SfListesi?ClassId=@item.ClassId" style="border: none;" title="SINIF LİSTESİ" class="btn btn-block btn-outline-light btn-sm">
+                                <i class="nav-icon far fa-address-book text-dark"></i>
+                            </a>
+                        </div>
+                    </td>
+
+                </tr>
+
+            }
+        </table>
+    </div>
+
+    @*<script src="~/tooltip.js/tooltip.js"></script>*@
+    <br />
+    <!--<div>
+        <div class="p-5 w-50 m-0">
+            <!--burada Add viewine yönlendirme yaptık-->
+            <!--@*<a href="/User/Logout" class="btn btn-success">ANA SAYFA</a>*@
+        </div>
+    </div>-->
+
+    <br />
+    <script>
+        $(document).ready(function () {
+            $('#tbl1').DataTable({
+                pageLength: 15,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.1/i18n/tr.json'
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

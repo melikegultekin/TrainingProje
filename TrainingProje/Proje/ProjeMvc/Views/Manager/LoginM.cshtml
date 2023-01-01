@@ -1,0 +1,70 @@
+﻿@model Entities.DTOs.ManagerForLoginDto
+
+@{
+    ViewData["Title"] = "LoginM";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<script src="~/js/site.js"></script>
+
+<h1>Yetkili Giriş Sayfası</h1>
+<br />
+
+<div class="content" style="width: 400px; margin-left: 35%; margin-bottom: 10%; margin-top:5%">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header"><h5 class="title">Yetkili Giriş Yap</h5></div>
+            @if (TempData["AlertMessage"] != null)
+            {
+                <div class="alert alert-danger">
+                    <strong>Mesajınız!</strong>@TempData["AlertMessage"]
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                        @*<span>x</span>*@
+                    </button>
+                </div>
+            }
+            <div class="card-body">
+                @ViewBag.Mesaj
+                @using (Html.BeginForm("LoginM", "Manager", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        @Html.Label("Kullanıcı Adı:")
+                        <div class="col-md-10 input-group">
+                            @Html.TextBoxFor(x => x.ManagerName, new { autocomplete = "off" })<br />
+                        </div>
+                        @Html.ValidationMessageFor(x => x.ManagerName, "", new { @class = "text-danger" })
+                        <br /><br />
+                        @Html.Label("Şifre:")
+                        <div class="col-md-10 input-group">
+                            @Html.PasswordFor(x => x.Password)<br />
+                            <input type="button" class="btnShow" id="btnShow" value="show" style="font-size:8px;" />
+                        </div>
+                        @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+                        <br /><br />
+                        @*@Html.Label("Beni Hatırla:")
+                    @Html.CheckBoxFor(x => x.RememberMe)
+                    <br /><br />*@
+                        <button>Giriş</button>
+                    </div>
+                }
+            </div>
+        </div>
+</div>
+
+    <script>
+
+        $(document).ready(function () {
+            console.log("ready index!");
+
+            $("#btnShow").click(function () {
+                /*alert("Handler for .click() called.");*/
+                alert($("#Password").val());
+                $("#Password").attr("type", "text");
+            });
+
+        });
+
+
+    </script>
